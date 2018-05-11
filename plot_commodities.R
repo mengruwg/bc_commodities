@@ -3,7 +3,7 @@ library(reshape2)
 library(ggplot2)
 library(cowplot)
 
-index <- read_delim("commodity prices.csv", 
+index <- read_delim("data/commodity_indices.csv", 
                     ";", 
                     escape_double = FALSE, 
                     col_types = cols(DATE = col_date(format = "%d.%m.%Y"), GCSI_OI = col_skip()), 
