@@ -10,7 +10,7 @@ index <- read_delim("data/commodity_indices.csv",
                     locale = locale(decimal_mark = ",", grouping_mark = "."), 
                     trim_ws = TRUE)
 
-index_re = data.frame(mapply(`/`, index[, 2:5], as.numeric(index[252, 2:5]))) * 100
+index_re = data.frame(mapply(`/`, index[, 2:5], as.numeric(index[481, 2:5]))) * 100
 index_re = data.frame(index[, 1], index_re, index[, 6:9])
 
 index_diff = sapply(index[, 2:ncol(index)], diff)

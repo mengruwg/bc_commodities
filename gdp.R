@@ -28,4 +28,3 @@ for(i in countries){
 plot(gdps_hp[[1]])
 
 # USA from 1955-Q1, Chile 1995-Q1, others 1960-Q1
-
