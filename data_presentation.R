@@ -5,12 +5,13 @@ library(readr)
 library(reshape2)
 library(ggplot2)
 library(ggthemes)
+library(cowplot)
 library(pracma)
 library(mFilter)
 
 ### Commodities
 
-data_ind = read_delim("data/data_indices.csv", 
+data_ind = read_delim("C:/Users/Nikolas/Documents/BC_Commodities/data/data_indices.csv", 
                           ";", 
                           escape_double = FALSE, 
                           locale = locale(decimal_mark = ",", 
@@ -67,23 +68,24 @@ names(data_ind_re)[1] = "Date"
 # data_oil = bloomberg_import(data_oil)
 # data_oil = Reduce(function(...) merge(..., all = TRUE), data_oil)
 
-tail(data_ind_re)
+tail(round(data_ind[, 2:ncol(data_ind)], 1))
 
 df = melt(data_ind_re[, which(names(data_ind_re) %in% 
                              c("Date", "SPGSCI", "BCOM", "SPGSCL"))], 
           id = "Date")
 
-ind_line = ggplot(df, aes(x = Date, y = value)) +
+plot_indices = ggplot(df, aes(x = Date, y = value)) +
   geom_line(aes(colour = variable), size = 0.5) +
   ggtitle("Commodity Indices") +
-  scale_y_continuous(breaks = c(0, 100, 200, 400, 600)) +
-  scale_x_date(date_breaks = "5 years", date_labels = "%Y") +
+  scale_y_continuous(breaks = c(0, 100, 200, 400, 600), expand = c(0.1, 0.1)) +
+  scale_x_date(date_breaks = "5 years", date_labels = "%Y", expand = c(0, 0)) +
   theme_fivethirtyeight() +
-  scale_color_gdocs(name = NULL)
+  scale_color_ptol(name = NULL)
+plot_indices
 
 ### GDP
 
-gdp = read_csv("data/oecd_gdp.csv")
+gdp = read_csv("C:/Users/Nikolas/Documents/BC_Commodities/data/oecd_gdp.csv")
 
 gdp = gdp[which(gdp$MEASURE == "CPCARSA"), ]
 gdp = gdp[which(gdp$FREQUENCY == "Q"), ]
@@ -145,32 +147,37 @@ DEU$lin = detrend(DEU$Value)
 USA$lin = detrend(USA$Value)
 
 gdps[[1]] = AUS
-gdps[[2]] = CHL
+gdps[[2]] = DEU
 gdps[[3]] = NOR
-gdps[[4]] = ZAF
-gdps[[5]] = DEU
-gdps[[6]] = USA
+gdps[[4]] = USA
+gdps[[5]] = CHL
+gdps[[6]] = ZAF
 rm(AUS, CHL, NOR, ZAF, DEU, USA)
 }
 
 charts = paste("Detrending", names(gdps))
-detrend_line = vector("list", length(gdps))
+plot_trend = vector("list", length(gdps))
 
 i = 1
 for(country in gdps) {
-  df = melt(country, id = "Date")
+  df = melt(country[, 2:ncol(country)], id = "Date")
   df$Date = as.Date(df$Date)
-  
-  detrend_line[[i]] = ggplot(df, aes(x = Date, y = value, colour = variable)) +
+  levels(df$variable) = c("HP", "Differenced", "Linear")
+
+  plot_trend[[i]] = ggplot(df, aes(x = Date, y = value, colour = variable)) +
     geom_line(size = 0.5) +
     ggtitle(charts[i]) +
-    scale_y_continuous(breaks = c(-0.3, -0.2, -0.1, -0.05, 0, 0.05, 0.1, 0.2, 0.3), 
+    scale_y_continuous(breaks = c(-0.30, -0.2, -0.1, -0.05, 0, 0.05, 0.1, 0.2, 0.30), 
                        expand = c(0, 0)) +
-    coord_cartesian(ylim = c(-0.3, 0.3)) +
-    scale_x_date(date_breaks = "5 years", date_labels = "%Y") +
+    coord_cartesian(ylim = c(-0.35, 0.35), expand = c(0, 0)) +
+    scale_x_date(date_breaks = ifelse(min(df$Date) < "1990-01-01", "10 years", "5 years"), date_labels = "%Y") +
     theme_fivethirtyeight() +
-    scale_color_gdocs(name = NULL)
+    scale_color_ptol(name = NULL)
   i = i + 1
 }
 
-detrend_line
+plot_trend
+plot_trendgrid = plot_grid(plotlist = plot_trend)
+
+ggsave("img/detrending.png", width = 16, height = 10)
+ggsave("img/comm.png", plot_indices, scale = 0.5, width = 16, height = 10)

@@ -1,36 +1,36 @@
 library(readr)
 
-gdp = read_delim("data/gdp.csv", 
+gdp = read_delim("data/resource-dependence/worldbank_gdp.csv", 
                  ";", 
                  escape_double = FALSE, 
                  locale = locale(decimal_mark = ",", grouping_mark = "."), 
                  trim_ws = TRUE)
 
-total_wealth = read_delim("data/total_wealth.csv", 
+total_wealth = read_delim("data/resource-dependence/total_wealth.csv", 
                           ";", 
                           escape_double = FALSE, 
                           locale = locale(decimal_mark = ",", grouping_mark = "."), 
                           trim_ws = TRUE)
 
-subsoil_wealth = read_delim("data/subsoil_wealth.csv", 
+subsoil_wealth = read_delim("data/resource-dependence/subsoil_wealth.csv", 
                             ";", 
                             escape_double = FALSE, 
                             locale = locale(decimal_mark = ",", grouping_mark = "."), 
                             trim_ws = TRUE)
 
-natural_wealth = read_delim("data/natural_wealth.csv", 
+natural_wealth = read_delim("data/resource-dependence/natural_wealth.csv", 
                             ";", 
                             escape_double = FALSE, 
                             locale = locale(decimal_mark = ",", grouping_mark = "."), 
                             trim_ws = TRUE)
 
-resource_rents = read_delim("data/resource_rents.csv", 
+resource_rents = read_delim("data/resource-dependence/resource_rents.csv", 
                             ";", 
                             escape_double = FALSE, 
                             locale = locale(decimal_mark = ",", grouping_mark = "."), 
                             trim_ws = TRUE)
 
-metal_exports = read_delim("data/metal_exports.csv", 
+metal_exports = read_delim("data/resource-dependence/metal_exports.csv", 
                             ";", 
                             escape_double = FALSE, 
                             locale = locale(decimal_mark = ",", grouping_mark = "."), 
