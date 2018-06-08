@@ -1,0 +1,31 @@
+---
+title: "Literature Overview"
+author: "Nikolas Kuschnig"
+date: "08 Juni 2018"
+output: html_document
+---
+
+# Mallick & Sousa 2002
+
+- Five BRICS countries (BR, RU, IN, CN, ZA)
+- Evaluate transmission of monetary policy & fluctuations in commodity prices
+
+### Econometric Methodology
+Standard SVAR with recursive identification: X is split into three groups:  
+1. n1 variables that respond to a monetary policy shock (GDP deflator, real GDP, commodity price index)  
+2. n2 variables that adjust contemporaneously (growth of M2, real effective exchange rate, equity price index)  
+3. the policy instrument (nominal central bank rate)  
+
+### Data
+Variables are expressed in logs of first-differences.  
+  1. Commodity price index  
+  2. Inflation rate (computed from country-specific CPIs)  
+  3. Real GDP (GDP at constant prices)  
+  4. Nominal central bank rate (Monetary policy instrument)  
+  5. Broad money supply M2  
+  6. Real effective exchange rate  
+  7. Stock price index  
+
+### Findings
+Commodity price shocks lead to a rise in inflation & demand aggressive behaviour from central banks to stabilise.
+
