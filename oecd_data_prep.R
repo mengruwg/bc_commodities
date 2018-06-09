@@ -1,5 +1,8 @@
 library(readr)
 
+data_gdp <- read_csv("data/oecd_gdp.csv")
+unique(data_gdp$Subject)
+
 data <- read_csv("data/oecd_data.csv")
 unique(data$Subject)
 
