@@ -30,6 +30,8 @@ names(df) <- c("TIME", "LOCATION", "Value")
 
 ggplot(df[which(df$LOCATION != "USA" & df$LOCATION != "DEU"), ], aes(x = TIME, y = Value, colour = LOCATION)) +
   geom_line()
+ggplot(df, aes(x = TIME, y = Value, colour = LOCATION)) +
+  geom_line()
 
 # Dickey Fuller
 for(i in 2:ncol(data)) {
