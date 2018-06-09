@@ -1,14 +1,9 @@
 library(readr)
 
-data_gdp <- read_csv("data/oecd_gdp.csv")
-unique(data_gdp$Subject)
-
-data <- read_csv("data/oecd_data.csv")
+data <- read_csv("data/oecd/oecd_data.csv")
 unique(data$Subject)
-
-gdp = data_gdp[data_gdp$MEASURE == "CPCARSA", ]
-gdp = gdp[which(gdp$FREQUENCY == "Q"), ]
-gdp = gdp[which(gdp$SUBJECT == "B1_GE"), ]
+data2 <- read_csv("data/oecd/oecd_gdp.csv")
+unique(data2$Subject)
 
 
 
@@ -55,7 +50,7 @@ ggplot(data_i10y, aes(x = TIME, y = Value, colour = LOCATION)) +
 
 
 # subset with imports in USD, current prices, PPP & seasonally adjusted
-data_im <- gdp[gdp$SUBJECT == "P6", ]
+data_im <- data2[data2$SUBJECT == "P6", ]
 data_im <- data_im[data_im$MEASURE == "CPCARSA", ]
 # Quarterly, just because
 data_im <- data_im[data_im$FREQUENCY == "Q", ]
@@ -64,13 +59,23 @@ ggplot(data_im, aes(x = TIME, y = Value, colour = LOCATION)) +
   geom_point()
 
 
-# subset with imports in USD, current prices, PPP & seasonally adjusted
-data_ex <- gdp[gdp$SUBJECT == "P7", ]
+# subset with exports in USD, current prices, PPP & seasonally adjusted
+data_ex <- data2[data2$SUBJECT == "P7", ]
 data_ex <- data_ex[data_ex$MEASURE == "CPCARSA", ]
 # Quarterly, just because
 data_ex <- data_ex[data_ex$FREQUENCY == "Q", ]
 
 ggplot(data_ex, aes(x = TIME, y = Value, colour = LOCATION)) +
+  geom_point()
+
+
+# subset with gdp in USD, current prices, PPP & seasonally adjusted
+data_gdp = data2[data2$SUBJECT == "B1_GE", ]
+data_gdp = data_gdp[data_gdp$MEASURE == "CPCARSA", ]
+# Quarterly, just because
+data_gdp = data_gdp[data_gdp$FREQUENCY == "Q", ]
+
+ggplot(data_gdp, aes(x = TIME, y = Value, colour = LOCATION)) +
   geom_point()
 
 
@@ -81,4 +86,5 @@ saveRDS(data_i3m, "oecd_i3m_interbank.rds")
 saveRDS(data_i10y, "oecd_i10y_government.rds")
 saveRDS(data_im, "oecd_imports.rds")
 saveRDS(data_ex, "oecd_exports.rds")
+saveRDS(data_gdp, "oecd_gdp.rds")
 
