@@ -11,7 +11,7 @@ Money, Credit & Finance paper dealing with business cycles in resource dependent
 
 ##### Econometric Methodology
 Standard SVAR with recursive identification: X is split into three groups:
-- n1 variables that respond to a monetary policy shock (GDP deflator, real GDP, commodity price index)
+- n1 variables that respond to a monetary policy shock with lag (GDP deflator, real GDP, commodity price index)
 - n2 variables that adjust contemporaneously (growth of M2, real effective exchange rate, equity price index)
 - the policy instrument (nominal central bank rate)
 
