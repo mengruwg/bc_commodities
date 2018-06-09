@@ -1,30 +1,38 @@
 library(readr)
 library(zoo)
 library(ggplot2)
+library(reshape2)
+library(tseries)
 
 gdp = read_csv("data/oecd_gdp.csv")
+gdp = gdp[which(gdp$MEASURE == "CPCARSA"), ]
+gdp = gdp[which(gdp$FREQUENCY == "Q"), ]
+gdp = gdp[which(gdp$SUBJECT == "B1_GE"), ]
 
 gdp = gdp[, c("LOCATION", "TIME", "Value")]
 gdp$LOCATION = as.factor(gdp$LOCATION)
 gdp$TIME = as.yearqtr(gdp$TIME, format = "%Y-Q%q")
+gdp$Value = log(gdp$Value)
 
 ggplot(gdp, aes(x = TIME, y = Value, colour = LOCATION)) +
+  geom_line()# +
+  scale_y_log10()
+
+data <- dcast(gdp, TIME ~ LOCATION, value.var = "Value")
+data[-1, 2:7] <- apply(data[2:7], 2, diff)
+data <- data[-1, ]
+
+ggplot(data, aes(x = TIME)) +
+  geom_line(aes(y = USA))
+
+df <- melt(data, id = "TIME")
+names(df) <- c("TIME", "LOCATION", "Value")
+
+ggplot(df[which(df$LOCATION != "USA" & df$LOCATION != "DEU"), ], aes(x = TIME, y = Value, colour = LOCATION)) +
   geom_line()
 
-countries = levels(gdp$LOCATION)
-
-gdps = vector("list", length(countries))
-gdps_hp = vector("list", length(countries))
-y = vector("list", length(countries))
-
-idx = 1
-for(i in countries){
-  gdps[[idx]] = gdp[which(gdp$LOCATION == i), ]
-  gdps_hp[[idx]] = hpfilter(gdps[[idx]]$Value, freq = 1600)
-  y[[idx]] = gdps_hp[[idx]]$cycle
-  idx = idx + 1
-}; rm(idx, i)
-
-plot(gdps_hp[[1]])
-
-# USA from 1955-Q1, Chile 1995-Q1, others 1960-Q1
+# Dickey Fuller
+for(i in 2:ncol(data)) {
+  print(colnames(data[i]))
+  print(adf.test(data[!is.na(data[, i]), i], alternative = c("stationary")))
+}
