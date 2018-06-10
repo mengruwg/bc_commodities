@@ -52,3 +52,50 @@ m3$TIME <- as.yearqtr(m3$TIME, format = "%Y-Q%q")
 plot_data(m3)
 m3 <- stationarise_oecd(m3)
 plot_stationary(m3)
+
+### imports
+imports <- readRDS("data/oecd_imports.rds")
+imports <- imports[c("TIME", "LOCATION", "Value")]
+imports$TIME <- as.yearqtr(imports$TIME, format = "%Y-Q%q")
+# check data
+plot_data(imports)
+imports <- stationarise_oecd(imports)
+plot_stationary(imports)
+
+### exports
+exports <- readRDS("data/oecd_exports.rds")
+exports <- exports[c("TIME", "LOCATION", "Value")]
+exports$TIME <- as.yearqtr(exports$TIME, format = "%Y-Q%q")
+# check data
+plot_data(exports)
+exports <- stationarise_oecd(exports)
+plot_stationary(exports)
+
+### trade balance
+trade_balance <- imports[1]
+trade_balance[2:7] <- exports[2:7] - imports[2:7]
+names(trade_balance) <- names(imports)
+# check out data
+plot_stationary(trade_balance)
+
+
+
+### i10y
+i10y <- readRDS("data/oecd_i10y_government.rds")
+i10y <- i10y[c("TIME", "LOCATION", "Value")]
+i10y$TIME <- as.yearqtr(i10y$TIME, format = "%Y-Q%q")
+# check data
+plot_data(i10y)
+#i10y <- stationarise_oecd(i10y)
+#plot_stationary(i10y)
+
+### i3m
+i3m <- readRDS("data/oecd_i3m_interbank.rds")
+i3m <- i3m[c("TIME", "LOCATION", "Value")]
+i3m$TIME <- as.yearqtr(i3m$TIME, format = "%Y-Q%q")
+# check data
+plot_data(i3m)
+#i3m <- stationarise_oecd(i3m)
+#plot_stationary(i3m)
+
+# We can't really calculate a yield spread from these two interest rates
