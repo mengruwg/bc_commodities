@@ -16,6 +16,10 @@ plot_stationary <- function(x) {
     geom_smooth(method = "lm")
 }
 
+unmelt_oecd <- function(x) {
+  x <- dcast(x, TIME ~ LOCATION, value.var = "Value")
+}
+
 stationarise_oecd <- function(x) {
   x$Value <- log(x$Value)
   x <- dcast(x, TIME ~ LOCATION, value.var = "Value")
@@ -43,6 +47,8 @@ inflation$TIME <- as.yearqtr(inflation$TIME, format = "%Y-Q%q")
 plot_data(inflation)
 inflation <- stationarise_oecd(inflation)
 plot_stationary(inflation)
+
+# looks pretty bad for CHL, but we will only look at 1990 onwards for it
 
 ### m3
 m3 <- readRDS("data/oecd_m3.rds")
@@ -86,8 +92,8 @@ i10y <- i10y[c("TIME", "LOCATION", "Value")]
 i10y$TIME <- as.yearqtr(i10y$TIME, format = "%Y-Q%q")
 # check data
 plot_data(i10y)
-#i10y <- stationarise_oecd(i10y)
-#plot_stationary(i10y)
+i10y <- stationarise_oecd(i10y)
+plot_stationary(i10y)
 
 ### i3m
 i3m <- readRDS("data/oecd_i3m_interbank.rds")
@@ -95,7 +101,7 @@ i3m <- i3m[c("TIME", "LOCATION", "Value")]
 i3m$TIME <- as.yearqtr(i3m$TIME, format = "%Y-Q%q")
 # check data
 plot_data(i3m)
-#i3m <- stationarise_oecd(i3m)
-#plot_stationary(i3m)
+i3m <- stationarise_oecd(i3m)
+plot_stationary(i3m)
 
 # We can't really calculate a yield spread from these two interest rates
