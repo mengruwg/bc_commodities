@@ -37,7 +37,7 @@ data_indices <- read_delim("data/commodities/data_indices.csv",
                            trim_ws = TRUE, 
                            skip = 1)
 
-# extract some important indices
+# extract only some important indices for now
 spgsci <- data_indices[(which(names(data_indices) == "SPGSCI Index") - 1):which(names(data_indices) == "SPGSCI Index")]
 names(spgsci) <- c("TIME", "Value")
 spgspm <- data_indices[(which(names(data_indices) == "SPGSPM Index") - 1):which(names(data_indices) == "SPGSPM Index")]
