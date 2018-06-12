@@ -1,7 +1,7 @@
 library(readr)
 
 extract_quarter <- function(x) {
-  x <- x[which(format(x$TIME, format = "%m") %in% c("03", "06", "09", "12")), ]
+  x <- x[which(format(x$TIME, format = "%m") %in% c("01", "04", "07", "10")), ]
   x$TIME <- as.yearqtr(x$TIME, format = "%Y-Q%q")
   
   return(x)

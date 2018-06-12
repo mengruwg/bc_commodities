@@ -54,10 +54,23 @@ plot_stationary(inflation)
 m3 <- readRDS("data/oecd_m3.rds")
 m3 <- m3[c("TIME", "LOCATION", "Value")]
 m3$TIME <- as.yearqtr(m3$TIME, format = "%Y-Q%q")
+# lets add Datastreams M2 for Germany
+ger_m2 <- read_delim("data/datastream/ger_m2.csv", 
+                     ";", 
+                     escape_double = FALSE, 
+                     locale = locale(decimal_mark = ",", grouping_mark = "."), 
+                     col_types = cols(Original = col_skip()),
+                     trim_ws = TRUE)
+# We rebase with 2010 = 100
+ger_m2$LOCATION <- "DEU"
+ger_m2$TIME <- as.yearqtr(ger_m2$TIME, format = "Q%q %Y")
+m3 <- rbind(ger_m2, m3)
 # check data
 plot_data(m3)
 m3 <- stationarise_oecd(m3)
 plot_stationary(m3)
+
+# Germany has a bad jump at 1995, but I guess better than nothing
 
 ### imports
 imports <- readRDS("data/oecd_imports.rds")
@@ -105,3 +118,8 @@ i3m <- stationarise_oecd(i3m)
 plot_stationary(i3m)
 
 # We can't really calculate a yield spread from these two interest rates
+
+oecd_data <- list(gdp, inflation, i10y, i3m, trade_balance, m3)
+names(oecd_data) <- c("gdp", "infl", "i10y", "i3m", "trade", "m3")
+
+saveRDS(oecd_data, "data/oecd_data.rds")

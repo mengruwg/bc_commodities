@@ -1,10 +1,150 @@
+library(zoo)
+
+# Aggregate all our data into a manageable format on per-country basis
+
+# Dataframes of our commodity indices in a list
 indices <- readRDS("data/indices_stationary.rds")
-exch_rates <- readRDS("data/exchRates_q_mean.rds")
+# A dataframe of exchange rates
+exch_rates <- readRDS("data/exch_rates_q_mean.rds")
+# Dataframes of monetary policy rates in a list
+mp_rates <- readRDS("data/mp_rates.rds")
+# Dataframes of OECD data in a list
+oecd_data <- readRDS("data/oecd_data.rds")
 
-data <- list(gdp, inflation, i10y, trade_balance, m3)
-names(data) <- c("gdp", "infl", "i10y", "trade", "m3")
 
-aus <- lapply(data, function(x) x$AUS)
-aus <- data.frame(TIME = data$gdp$TIME, aus)
-aus <- merge(aus, spgsci, by = "TIME")
-aus <- aus[complete.cases(aus), ]
+# Australia ---------------------------------------------------------------
+
+AUS <- lapply(oecd_data, function(x) x$AUS)
+# this works cause all of the dataframes here are the same length
+AUS <- data.frame(TIME = oecd_data$gdp$TIME, AUS)
+
+# add AUD exchange rate
+AUS <- merge(AUS, exch_rates[c("TIME", "AUD")], by = "TIME", all.x = TRUE)
+names(AUS)[which(names(AUS) == "AUD")] <- "exch_rate"
+
+# add MP rate
+AUS <- merge(AUS, mp_rates$aus_mp_rate, by = "TIME", all.x = TRUE)
+names(AUS)[which(names(AUS) == "Value")] <- "mp_rate"
+# carry over the last value if the rate wasn't adjusted
+AUS$mp_rate <- na.locf(AUS$mp_rate, na.rm = FALSE)
+
+# add the SPGSCI
+AUS <- merge(AUS, indices$spgsci, by = "TIME", all.x = TRUE)
+names(AUS)[which(names(AUS) == "Value")] <- "spgsci"
+
+#AUS <- AUS[complete.cases(AUS), ]
+
+
+# Chile ---------------------------------------------------------------
+
+CHL <- lapply(oecd_data, function(x) x$CHL)
+# this works cause all of the dataframes here are the same length
+CHL <- data.frame(TIME = oecd_data$gdp$TIME, CHL)
+
+# add AUD exchange rate
+CHL <- merge(CHL, exch_rates[c("TIME", "CLP")], by = "TIME", all.x = TRUE)
+names(CHL)[which(names(CHL) == "CLP")] <- "exch_rate"
+
+# add MP rate
+CHL <- merge(CHL, mp_rates$chl_mp_rate, by = "TIME", all.x = TRUE)
+names(CHL)[which(names(CHL) == "Value")] <- "mp_rate"
+# carry over the last value if the rate wasn't adjusted
+CHL$mp_rate <- na.locf(CHL$mp_rate, na.rm = FALSE)
+
+# add the SPGSCI
+CHL <- merge(CHL, indices$spgsci, by = "TIME", all.x = TRUE)
+names(CHL)[which(names(CHL) == "Value")] <- "spgsci"
+
+#CHL <- CHL[complete.cases(CHL), ]
+
+
+# Germany ---------------------------------------------------------------
+
+DEU <- lapply(oecd_data, function(x) x$DEU)
+# this works cause all of the dataframes here are the same length
+DEU <- data.frame(TIME = oecd_data$gdp$TIME, DEU)
+
+# add AUD exchange rate
+DEU <- merge(DEU, exch_rates[c("TIME", "DEM")], by = "TIME", all.x = TRUE)
+names(DEU)[which(names(DEU) == "DEM")] <- "exch_rate"
+
+# add MP rate
+DEU <- merge(DEU, mp_rates$deu_mp_rate, by = "TIME", all.x = TRUE)
+names(DEU)[which(names(DEU) == "Value")] <- "mp_rate"
+# carry over the last value if the rate wasn't adjusted
+DEU$mp_rate <- na.locf(DEU$mp_rate, na.rm = FALSE)
+
+# add the SPGSCI
+DEU <- merge(DEU, indices$spgsci, by = "TIME", all.x = TRUE)
+names(DEU)[which(names(DEU) == "Value")] <- "spgsci"
+
+#DEU <- DEU[complete.cases(DEU), ]
+
+
+# Norway ---------------------------------------------------------------
+
+NOR <- lapply(oecd_data, function(x) x$NOR)
+# this works cause all of the dataframes here are the same length
+NOR <- data.frame(TIME = oecd_data$gdp$TIME, NOR)
+
+# add AUD exchange rate
+NOR <- merge(NOR, exch_rates[c("TIME", "NOK")], by = "TIME", all.x = TRUE)
+names(NOR)[which(names(NOR) == "NOK")] <- "exch_rate"
+
+# add MP rate
+NOR <- merge(NOR, mp_rates$nor_mp_rate, by = "TIME", all.x = TRUE)
+names(NOR)[which(names(NOR) == "Value")] <- "mp_rate"
+# carry over the last value if the rate wasn't adjusted
+NOR$mp_rate <- na.locf(NOR$mp_rate, na.rm = FALSE)
+
+# add the SPGSCI
+NOR <- merge(NOR, indices$spgsci, by = "TIME", all.x = TRUE)
+names(NOR)[which(names(NOR) == "Value")] <- "spgsci"
+
+#NOR <- NOR[complete.cases(NOR), ]
+
+
+# United States ---------------------------------------------------------------
+
+USA <- lapply(oecd_data, function(x) x$USA)
+# this works cause all of the dataframes here are the same length
+USA <- data.frame(TIME = oecd_data$gdp$TIME, USA)
+
+# add AUD exchange rate
+USA <- merge(USA, exch_rates[c("TIME", "USD")], by = "TIME", all.x = TRUE)
+names(USA)[which(names(USA) == "USD")] <- "exch_rate"
+
+# add MP rate
+USA <- merge(USA, mp_rates$usa_mp_rate, by = "TIME", all.x = TRUE)
+names(USA)[which(names(USA) == "Value")] <- "mp_rate"
+# carry over the last value if the rate wasn't adjusted
+USA$mp_rate <- na.locf(USA$mp_rate, na.rm = FALSE)
+
+# add the SPGSCI
+USA <- merge(USA, indices$spgsci, by = "TIME", all.x = TRUE)
+names(USA)[which(names(USA) == "Value")] <- "spgsci"
+
+#USA <- USA[complete.cases(USA), ]
+
+
+# South Africa ---------------------------------------------------------------
+
+ZAF <- lapply(oecd_data, function(x) x$ZAF)
+# this works cause all of the dataframes here are the same length
+ZAF <- data.frame(TIME = oecd_data$gdp$TIME, ZAF)
+
+# add AUD exchange rate
+ZAF <- merge(ZAF, exch_rates[c("TIME", "ZAR")], by = "TIME", all.x = TRUE)
+names(ZAF)[which(names(ZAF) == "ZAR")] <- "exch_rate"
+
+# add MP rate
+ZAF <- merge(ZAF, mp_rates$zaf_mp_rate, by = "TIME", all.x = TRUE)
+names(ZAF)[which(names(ZAF) == "Value")] <- "mp_rate"
+# carry over the last value if the rate wasn't adjusted
+ZAF$mp_rate <- na.locf(ZAF$mp_rate, na.rm = FALSE)
+
+# add the SPGSCI
+ZAF <- merge(ZAF, indices$spgsci, by = "TIME", all.x = TRUE)
+names(ZAF)[which(names(ZAF) == "Value")] <- "spgsci"
+
+#ZAF <- ZAF[complete.cases(ZAF), ]

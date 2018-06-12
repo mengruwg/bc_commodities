@@ -27,7 +27,7 @@ data_m3 <- data_m3[data_m3$FREQUENCY == "Q", ]
 
 ggplot(data_m3, aes(x = TIME, y = Value, colour = LOCATION)) +
   geom_point()
-# DEU only available annually
+# DEU only available annually, we have M2 from Datastream however
 
 
 # subset with 3 month Interbank rates
