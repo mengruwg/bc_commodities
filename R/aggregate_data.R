@@ -148,3 +148,12 @@ ZAF <- merge(ZAF, indices$spgsci, by = "TIME", all.x = TRUE)
 names(ZAF)[which(names(ZAF) == "Value")] <- "spgsci"
 
 #ZAF <- ZAF[complete.cases(ZAF), ]
+
+
+
+# All ---------------------------------------------------------------------
+
+data <- list(AUS, CHL, DEU, NOR, USA, ZAF)
+names(data) <- c("AUS", "CHL", "DEU", "NOR", "USA", "ZAF")
+
+saveRDS(data, "data/country_data.rds")
