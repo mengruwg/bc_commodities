@@ -3,4 +3,5 @@ names(data) <- c("gdp", "infl", "i10y", "trade", "m3")
 
 aus <- lapply(data, function(x) x$AUS)
 aus <- data.frame(TIME = data$gdp$TIME, aus)
+aus <- merge(aus, spgsci, by = "TIME")
 aus <- aus[complete.cases(aus), ]
