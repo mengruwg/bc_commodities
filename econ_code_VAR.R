@@ -1,52 +1,46 @@
-require(bvarsv)
+data <- readRDS("data/country_data.RDS")
+data_aus <- data$AUS[c(-1, -8)]
+data_aus <- data_aus[complete.cases(data_aus), ]
 
-
-mlag <- function(X, lag)
-{
-  p <- lag
-  X <- as.matrix(X)
-  Traw <- nrow(X)
-  N <- ncol(X)
-  Xlag <- matrix(0, Traw, p * N)
-  for (ii in 1:p) {
-    Xlag[(p + 1):Traw, (N * (ii - 1) + 1):(N * ii)] = X[(p + 1 - ii):(Traw -
-                                                                        ii), (1:N)]
+lag_x <- function(x, lag) {
+  x <- as.matrix(x)
+  x_rows <- nrow(x)
+  x_cols <- ncol(x)
+  x_lagged <- matrix(0, x_rows, lag * x_cols)
+  for (i in 1:lag) {
+    x_lagged[(lag + 1):x_rows, (x_cols * (i - 1) + 1):(x_cols * i)] <- 
+      x[(lag + 1 - i):(x_rows - i), (1:x_cols)]
   }
-  return(Xlag)
+  return(x_lagged)
 }
-data(usmacro)
-plot(usmacro)
-
 
 p <- 4
-cons <- TRUE
-nhor <- 13
+const <- TRUE
 
 
-Y <- as.matrix(usmacro)
-X <- mlag(Y, p)
+Y <- as.matrix(data_aus)
+X <- lag_x(Y, 4)
 Y <- Y[(p + 1):nrow(Y), ]
 X <- X[(p + 1):nrow(X), ]
-if (cons) {
-  X <- cbind(X, 1)
+
+if (const) {
+  X <- cbind(1, X)
 }
 
 K <- ncol(X)
 M <- ncol(Y)
 
 B.OLS <- solve(crossprod(X)) %*% crossprod(X, Y)
-yfit <- X %*% B.OLS
 
 SSE <- crossprod(Y - X %*% B.OLS)
-T <- nrow(Y)
-SIGMA <- SIGMA.OLS <- SSE / (T - K)
+N <- nrow(Y)
+SIGMA <- SIGMA.OLS <- SSE / (N - K)
 
 #Start constructing a VAR prior
 #Step A: Run a set of AR(p) models
-mysigma <- matrix(NA, M, 1)
+ar_sigma <- vector("numeric", M)
 for (ii in 1:M) {
-  tmpar <- arima(Y[, ii], order = c(p, 0, 0))
-  mysigma[ii, 1] <- sqrt(tmpar$sigma2)
+  ar_sigma[ii] <- sqrt(arima(Y[, ii], order = c(p, 0, 0))$sigma2)
 }
 #Create dummy matrices
 #Specify hyperparameter on the minnesota prior and on the constant
@@ -71,7 +65,7 @@ get.dum <- function(theta, gamma.prior, delta, mysigma, M, p) {
 delta <- 1 # Mean on the first own lag
 theta <- 0.1 # tightness
 gamma.prior <- 10 #intercept
-dummies <- get.dum(theta, gamma.prior, 1, mysigma, M, p)
+dummies <- get.dum(theta, gamma.prior, 1, ar_sigma, M, p)
 Y_ <- dummies$Ydum
 X_ <- dummies$Xdum
 A.prior <-
@@ -90,7 +84,7 @@ ntot <- nsave + nburn
 
 A.store <- array(0, c(nsave, K, M))
 y.store <- matrix(0, nsave, M)
-IRF.store <- array(NA, c(nsave, M, M, nhor))
+IRF.store <- array(NA, c(nsave, M, M, k))
 
 for (irep in 1:ntot) {
   #Step I: Simulate from the posterior of A
@@ -107,9 +101,9 @@ for (irep in 1:ntot) {
     A.store[irep - nburn, , ] <- A.draw
     #Calculate one-step-ahead predictive density
     if (cons) {
-      X.new <- c(Y[T, ], X[T, 1:(M * (p - 1))], 1)
+      X.new <- c(Y[N, ], X[N, 1:(M * (p - 1))], 1)
     } else{
-      X.new <- c(Y[T, ], X[T, 1:(M * (p - 1))])
+      X.new <- c(Y[N, ], X[N, 1:(M * (p - 1))])
     }
     y.store[irep - nburn, ] <-
       X.new %*% A.draw + t(t(chol(SIGMA)) %*% rnorm(M))
@@ -150,9 +144,9 @@ for (irep in 1:ntot) {
       cond.OA <- cond.MP * cond.AS * cond.AD
     }
     
-    irf.mat <- array(0, c(M * p, M * p, nhor))
+    irf.mat <- array(0, c(M * p, M * p, k))
     irf.mat[, , 1] <- shock
-    for (ihorz in 2:nhor) {
+    for (ihorz in 2:k) {
       irf.mat[, , ihorz] <- irf.mat[, , ihorz - 1] %*% t(B.comp)
     }
     irf.mat <- irf.mat[1:M, 1:M, ]
@@ -167,10 +161,10 @@ IRF.high <- apply(IRF.store, c(2, 3, 4), quantile, 0.84, na.rm = TRUE)
 IRF.median <- apply(IRF.store, c(2, 3, 4), median, na.rm = TRUE)
 
 #Start plotting the IRFs w.r.t the different shocks
-par(mfrow = c(3, 3))
+par(mfrow = c(5, 5))
 
-for (ii in 1:M) {
-  for (jj in 1:M) {
+for (ii in 1:5) {
+  for (jj in 1:5) {
     ts.plot(
       cbind(IRF.low[ii, jj, ], IRF.high[ii, jj, ], IRF.median[ii, jj, ]),
       ylab = colnames(Y)[[ii]],
@@ -179,3 +173,4 @@ for (ii in 1:M) {
     abline(h = 0, col = "red")
   }
 }
+
