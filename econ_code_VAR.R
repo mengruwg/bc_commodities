@@ -1,6 +1,4 @@
-data <- readRDS("data/country_data.RDS")
-data_aus <- data$AUS[c(-1, -8)]
-data_aus <- data_aus[complete.cases(data_aus), ]
+source("R/VAR_country_setup.R")
 
 lag_x <- function(x, lag) {
   x <- as.matrix(x)
@@ -14,70 +12,79 @@ lag_x <- function(x, lag) {
   return(x_lagged)
 }
 
-p <- 4
-const <- TRUE
+estimate_var <- function(Y, 
+                         lag = 4,
+                         constant = TRUE,
+                         save = 500,
+                         burn = 500) {
+  
+  # Setup -------------------------------------------------------------------
 
-
-Y <- as.matrix(data_aus)
-X <- lag_x(Y, 4)
-Y <- Y[(p + 1):nrow(Y), ]
-X <- X[(p + 1):nrow(X), ]
-
-if (const) {
-  X <- cbind(1, X)
+  Y <- as.matrix(Y)
+  X <- lag_x(Y, lag)
+  
+  Y <- Y[(lag + 1):nrow(Y), ]
+  X <- X[(lag + 1):nrow(X), ]
+  
+  if (const) {
+    X <- cbind(1, X)
+  }
+  
+  X_col <- ncol(X)
+  Y_col <- ncol(Y)
+  Y_row <- nrow(Y)
+  
+  ols_est <- solve(crossprod(X)) %*% crossprod(X, Y)
+  sse <- crossprod(Y - X %*% ols_est)
+  sigma <- ols_sigma <- sse / (Y_row - X_col)
+  
+  # Prior -------------------------------------------------------------------
+  
+  ar_sigma <- apply(Y, 2, function(x) {
+    sqrt(arima(x, order = c(lag, 0, 0))$sigma2)
+    })
+  
+  dummies <- get.dum(sigma = ar_sigma, Y_col = Y_col, lag = lag)
+  
+  Y_prior <- dummies$Ydum
+  X_prior <- dummies$Xdum
+  
+  mean_prior <- solve(crossprod(X_prior)) %*% crossprod(X_prior, Y_prior)
+  
+  # Posterior -------------------------------------------------------------------
+  
+  Y_post <- rbind(Y, Y_prior)
+  X_post <- rbind(X, X_prior)
+  
+  var_post <- solve(crossprod(X_post))
+  mean_post <- var_post %*% crossprod(X_post, Y_post)
+  
+  
 }
 
-K <- ncol(X)
-M <- ncol(Y)
-
-B.OLS <- solve(crossprod(X)) %*% crossprod(X, Y)
-
-SSE <- crossprod(Y - X %*% B.OLS)
-N <- nrow(Y)
-SIGMA <- SIGMA.OLS <- SSE / (N - K)
-
-#Start constructing a VAR prior
-#Step A: Run a set of AR(p) models
-ar_sigma <- vector("numeric", M)
-for (ii in 1:M) {
-  ar_sigma[ii] <- sqrt(arima(Y[, ii], order = c(p, 0, 0))$sigma2)
-}
 #Create dummy matrices
 #Specify hyperparameter on the minnesota prior and on the constant
 #these will the arguments of the function
-get.dum <- function(theta, gamma.prior, delta, mysigma, M, p) {
-  #-----------
-  ydummy <- matrix(0, 2 * M + M * (p - 1) + 1, M)
-  xdummy <- matrix(0, 2 * M + M * (p - 1) + 1, M * p + 1)
+get.dum <- function(theta = 0.1, 
+                    gamma.prior = 10, 
+                    delta = 1,
+                    sigma, 
+                    Y_col,
+                    lag) {
   
-  ydummy[1:M, ] <- diag((as.numeric(mysigma) * delta) / theta)
-  ydummy[(M * (p - 1) + M + 1):(M * (p - 1) + 2 * M), ] <-
-    diag(as.numeric(mysigma))
+  ydummy <- matrix(0, 2 * Y_col + Y_col * (lag - 1) + 1, Y_col)
+  xdummy <- matrix(0, 2 * Y_col + Y_col * (lag - 1) + 1, Y_col * lag + 1)
   
-  jp <- diag(1:p)
-  xdummy[1:(M * p), 1:(M * p)] <-
-    kronecker(jp, diag(as.numeric(mysigma))) / theta
+  ydummy[1:Y_col, ] <- diag((as.numeric(sigma) * delta) / theta)
+  ydummy[(Y_col * (lag - 1) + Y_col + 1):(Y_col * (lag - 1) + 2 * Y_col), ] <-
+    diag(as.numeric(sigma))
+  
+  jp <- diag(1:lag)
+  xdummy[1:(Y_col * lag), 1:(Y_col * lag)] <-
+    kronecker(jp, diag(as.numeric(sigma))) / theta
   xdummy[nrow(xdummy), ncol(xdummy)] <- gamma.prior
   return(list(Xdum = xdummy, Ydum = ydummy))
 }
-
-
-delta <- 1 # Mean on the first own lag
-theta <- 0.1 # tightness
-gamma.prior <- 10 #intercept
-dummies <- get.dum(theta, gamma.prior, 1, ar_sigma, M, p)
-Y_ <- dummies$Ydum
-X_ <- dummies$Xdum
-A.prior <-
-  solve(crossprod(dummies$Xdum)) %*% crossprod(dummies$Xdum, dummies$Ydum)
-
-
-#Compute posterior variance
-XX <- rbind(X, X_)
-YY <- rbind(Y, Y_)
-V.post <- solve(crossprod(XX))
-A.post <- V.post %*% crossprod(XX, YY)
-
 nsave <- 500
 nburn <- 500
 ntot <- nsave + nburn

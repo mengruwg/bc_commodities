@@ -27,6 +27,14 @@ AUS <- merge(AUS, mp_rates$aus_mp_rate, by = "TIME", all.x = TRUE)
 names(AUS)[which(names(AUS) == "Value")] <- "mp_rate"
 # carry over the last value if the rate wasn't adjusted
 AUS$mp_rate <- na.locf(AUS$mp_rate, na.rm = FALSE)
+# use i3m for missing values
+i3m <- readRDS("data/oecd_i3m_interbank.rds")
+i3m <- i3m[i3m$LOCATION == "AUS", ]
+i3m <- i3m[c("TIME", "Value")]
+i3m$TIME <- as.yearqtr(i3m$TIME, format = "%Y-Q%q")
+AUS <- merge(AUS, i3m, by = "TIME", all.x = TRUE)
+AUS[is.na(AUS$mp_rate), ]$mp_rate <- AUS[is.na(AUS$mp_rate), ]$Value
+AUS$Value <- NULL
 
 # add the SPGSCI
 AUS <- merge(AUS, indices$spgsci, by = "TIME", all.x = TRUE)
@@ -74,7 +82,7 @@ names(DEU)[which(names(DEU) == "Value")] <- "mp_rate"
 # carry over the last value if the rate wasn't adjusted
 DEU$mp_rate <- na.locf(DEU$mp_rate, na.rm = FALSE)
 
-# add the SPGSCI
+# add the SPGSCI9
 DEU <- merge(DEU, indices$spgsci, by = "TIME", all.x = TRUE)
 names(DEU)[which(names(DEU) == "Value")] <- "spgsci"
 
@@ -96,6 +104,14 @@ NOR <- merge(NOR, mp_rates$nor_mp_rate, by = "TIME", all.x = TRUE)
 names(NOR)[which(names(NOR) == "Value")] <- "mp_rate"
 # carry over the last value if the rate wasn't adjusted
 NOR$mp_rate <- na.locf(NOR$mp_rate, na.rm = FALSE)
+# use i3m for missing values
+i3m <- readRDS("data/oecd_i3m_interbank.rds")
+i3m <- i3m[i3m$LOCATION == "NOR", ]
+i3m <- i3m[c("TIME", "Value")]
+i3m$TIME <- as.yearqtr(i3m$TIME, format = "%Y-Q%q")
+NOR <- merge(NOR, i3m, by = "TIME", all.x = TRUE)
+NOR[is.na(NOR$mp_rate), ]$mp_rate <- NOR[is.na(NOR$mp_rate), ]$Value
+NOR$Value <- NULL
 
 # add the SPGSCI
 NOR <- merge(NOR, indices$spgsci, by = "TIME", all.x = TRUE)
