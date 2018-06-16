@@ -45,10 +45,10 @@ print(pca.d2, sort=T, cut=0.52, digits=2)
 
 round(head(pca.d2$scores,),3)
 dat.scores<- data.frame(pca.d2$scores)
-colnames(dat.scores)<- c("OGI", "Metals", "Energy.Agri")
+colnames(dat.scores)<- c("OGI", "Energy.agri", "Metals")
 
 datcom3 <- cbind(datCOM_means_m2$Group.1, dat.scores)
-colnames(datcom3) <- c("Date","OGI", "Metals", "Energy.Agri")
+colnames(datcom3) <- c("Date","OGI", "Energy.agri", "Metals")
 
 write_rds(datcom3, "PCA_scores.RDS")
           
