@@ -1,3 +1,5 @@
+require(expm)
+
 olsvar <- function(y, lag) {
   y_dims <- dim(y)
   y <- t(y)
@@ -35,8 +37,8 @@ irfvar <- function(A, B_inv, lag, horizon = 12) {
                          rep(colnames(A), size))[1:size^2]
   colnames(IRF) <- 0:horizon
   
-  IRF[, 1] <- matrix(B_inv, ncol = 1)
-  for (i in 0:horizon) {
+  IRF[, 1] <- matrix(J %*% (A %^% 0) %*% t(J) %*% B_inv, ncol = 1)
+  for (i in 1:horizon) {
     IRF[, i + 1] <- matrix(J %*% (A %^% i) %*% t(J) %*% B_inv, ncol = 1)
   }
   
@@ -68,11 +70,20 @@ plot_irf <- function(IRF) {
   return(plots)
 }
 
+# Test Lütkepohl
+
+# infl = diff(ts(log(gdpdeflator2[56:nrow(gdpdeflator2),3])))*100;
+# drgdp = diff(ts(log(realgdp2[56:nrow(realgdp2),3])))*100;
+# poilm = log(poil[which(poil$X2 %in% c("03", "06", "09", "12")),3]);
+# drpoil = diff(ts(poilm))*100-infl;
+# data = cbind(drpoil, infl, drgdp)
+
 lag <- 4
 data <- as.matrix(data)
 ols <- olsvar(data, lag)
 B_inv <- t(chol(ols$SIGMA[1:ncol(data), 1:ncol(data)]))
-irf <- irfvar(ols$A, B_inv, lag, horizon = 36)
+irf <- irfvar(ols$A, B_inv, lag, horizon = 100)
+
 
 plots <- plot_irf(irf)
 plots[[1]]

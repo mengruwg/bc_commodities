@@ -2,9 +2,6 @@
 
 Money, Credit & Finance paper dealing with business cycles in resource dependent economies.
 
-# bond 10y, nicht log diff
-
-
 # Literature Review
 
 ### Mallick & Sousa 2002

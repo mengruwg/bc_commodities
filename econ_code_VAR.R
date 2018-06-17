@@ -1,12 +1,13 @@
 source("R/VAR_country_setup.R")
 
-data <- data_aus[c(7, 5, 3, 6, 1, 4, 2)]
+data <- data_aus[c(7, 3, 1, 5, 6, 4, 2)]
 data$mp_rate <- data$mp_rate / 100
-data[c(2, 3, 5, 6, 7)] <- data[c(2, 3, 5, 6, 7)] * 100
+data$i10y <- data$i10y / 100
+data[c(2, 5, 6, 7)] <- data[c(2, 5, 6, 7)] * 100
 
 model <- VAR(y = data, lag.max = 8, ic = "AIC")
 
-plot(irf(BQ(model)))
+plot(irf(model))
 
 
 
