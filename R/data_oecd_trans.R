@@ -1,5 +1,6 @@
 library(reshape2)
 library(zoo)
+library(readr)
 library(ggplot2)
 
 plot_data <- function(x) {
@@ -18,6 +19,7 @@ plot_stationary <- function(x) {
 
 unmelt_oecd <- function(x) {
   x <- dcast(x, TIME ~ LOCATION, value.var = "Value")
+  x <- x[-1, ]
 }
 
 stationarise_oecd <- function(x) {
@@ -105,8 +107,9 @@ i10y <- i10y[c("TIME", "LOCATION", "Value")]
 i10y$TIME <- as.yearqtr(i10y$TIME, format = "%Y-Q%q")
 # check data
 plot_data(i10y)
-i10y <- stationarise_oecd(i10y)
-plot_stationary(i10y)
+i10y <- unmelt_oecd(i10y)
+#i10y <- stationarise_oecd(i10y)
+#plot_stationary(i10y)
 
 ### i3m
 i3m <- readRDS("data/oecd_i3m_interbank.rds")
@@ -114,8 +117,9 @@ i3m <- i3m[c("TIME", "LOCATION", "Value")]
 i3m$TIME <- as.yearqtr(i3m$TIME, format = "%Y-Q%q")
 # check data
 plot_data(i3m)
-i3m <- stationarise_oecd(i3m)
-plot_stationary(i3m)
+i3m <- unmelt_oecd(i3m)
+#i3m <- stationarise_oecd(i3m)
+#plot_stationary(i3m)
 
 # We can't really calculate a yield spread from these two interest rates
 

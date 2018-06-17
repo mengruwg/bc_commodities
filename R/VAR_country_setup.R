@@ -1,11 +1,11 @@
 data <- readRDS("data/country_data.RDS")
 
-lapply(data, function(x) {
-  nrow(x[complete.cases(x), ])
-  summary(x) # exchange rate has 135 NAs
-  nrow(x[complete.cases(x[-8]), -8])
-  summary(x)
-})
+# lapply(data, function(x) {
+#   nrow(x[complete.cases(x), ])
+#   summary(x) # exchange rate has 135 NAs
+#   nrow(x[complete.cases(x[-8]), -8])
+#   summary(x)
+# })
 
 # Chile & Norway miss:
 #   i3m, i10y, exch_rate

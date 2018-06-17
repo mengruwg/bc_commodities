@@ -1,22 +1,18 @@
 source("R/VAR_country_setup.R")
 
-lag_x <- function(x, lag) {
-  x <- as.matrix(x)
-  x_rows <- nrow(x)
-  x_cols <- ncol(x)
-  x_lagged <- matrix(0, x_rows, lag * x_cols)
-  for (i in 1:lag) {
-    x_lagged[(lag + 1):x_rows, (x_cols * (i - 1) + 1):(x_cols * i)] <- 
-      x[(lag + 1 - i):(x_rows - i), (1:x_cols)]
-  }
-  return(x_lagged)
-}
+data <- data_aus[c(7, 3, 1, 5, 6, 4, 2)]
+data$mp_rate <- data$mp_rate / 100
+data$i10y <- data$i10y / 100
+data[c(2, 5, 6, 7)] <- data[c(2, 5, 6, 7)] * 100
+
+model <- VAR(y = data, lag.max = 8, ic = "AIC")
+
+plot(irf(model))
+
+
 
 estimate_var <- function(Y, 
-                         lag = 4,
-                         constant = TRUE,
-                         save = 500,
-                         burn = 500) {
+                         lag = 2) {
   
   # Setup -------------------------------------------------------------------
 
@@ -26,10 +22,6 @@ estimate_var <- function(Y,
   Y <- Y[(lag + 1):nrow(Y), ]
   X <- X[(lag + 1):nrow(X), ]
   
-  if (const) {
-    X <- cbind(1, X)
-  }
-  
   X_col <- ncol(X)
   Y_col <- ncol(Y)
   Y_row <- nrow(Y)
@@ -38,35 +30,85 @@ estimate_var <- function(Y,
   sse <- crossprod(Y - X %*% ols_est)
   sigma <- ols_sigma <- sse / (Y_row - X_col)
   
-  # Prior -------------------------------------------------------------------
+  # identification
+  id <- t(chol(sigma))
+  #id_inv <- solve(id)
+  #id_inv[upper.tri(matrix(1, ncol(id), nrow(id)))] <- 0
   
-  ar_sigma <- apply(Y, 2, function(x) {
-    sqrt(arima(x, order = c(lag, 0, 0))$sigma2)
-    })
+  M_comp <- matrix(0, X_col, X_col)
+  M_comp[1:Y_col, ] <- t(ols_est)
+  M_comp[(Y_col + 1):X_col, 1:(X_col - Y_col)] <- diag(Y_col * (lag - 1))
   
-  dummies <- get.dum(sigma = ar_sigma, Y_col = Y_col, lag = lag)
+  J <- diag(1, nrow = X_col, ncol = Y_col)
+  eta <- J %*% id
   
-  Y_prior <- dummies$Ydum
-  X_prior <- dummies$Xdum
+  z <- vector("numeric", X_col)
+  z <- t(Y[1, ])
+  z <- append(z, Y[2, ], Y_col)
   
-  mean_prior <- solve(crossprod(X_prior)) %*% crossprod(X_prior, Y_prior)
+  eta %*% M_comp
   
-  # Posterior -------------------------------------------------------------------
+  imp_responses <- array(0, c(Y_col * lag, Y_col * lag, X_col))
+  apply(shocks, 2, function(x) {
+    x %*% t(companion)
+  })
   
-  Y_post <- rbind(Y, Y_prior)
-  X_post <- rbind(X, X_prior)
+  shocks %*% t(companion)
   
-  var_post <- solve(crossprod(X_post))
-  mean_post <- var_post %*% crossprod(X_post, Y_post)
-  
+  for(i in 1:20) {
+    
+  }
   
 }
+
+irf <- function(variables) {
+  impulses <- responses <- colnames(Y)
+  
+  ci <- 1 - ci
+  
+  
+  
+  
+  irf.mat <- array(0, c(M * p, M * p, k))
+  irf.mat[, , 1] <- shock
+  for (ihorz in 2:k) {
+    irf.mat[, , ihorz] <- irf.mat[, , ihorz - 1] %*% t(B.comp)
+  }
+  irf.mat <- irf.mat[1:M, 1:M, ]
+  
+  IRF.store[irep - nburn, , , ] <- irf.mat
+  
+}
+
+# Bayes -------------------------------------------------------------------
+
+ar_sigma <- apply(Y, 2, function(x) {
+  sqrt(arima(x, order = c(lag, 0, 0))$sigma2)
+})
+
+dummies <- get.dum(sigma = ar_sigma, Y_col = Y_col, lag = lag)
+
+Y_prior <- dummies$Ydum
+X_prior <- dummies$Xdum
+
+mean_prior <- solve(crossprod(X_prior)) %*% crossprod(X_prior, Y_prior)
+
+Y_post <- rbind(Y, Y_prior)
+X_post <- rbind(X, X_prior)
+
+var_post <- solve(crossprod(X_post))
+mean_post <- var_post %*% crossprod(X_post, Y_post)
+
+v_post <- kronecker(sigma, var_post)
+v_post_chol <- t(chol(v_post))
+
+t(chol(var_post)) %*% chol(var_post) == var_post
 
 #Create dummy matrices
 #Specify hyperparameter on the minnesota prior and on the constant
 #these will the arguments of the function
 get.dum <- function(theta = 0.1, 
-                    gamma.prior = 10, 
+                    gamma.prior = 10, # 0.15?
                     delta = 1,
                     sigma, 
                     Y_col,
@@ -85,6 +127,10 @@ get.dum <- function(theta = 0.1,
   xdummy[nrow(xdummy), ncol(xdummy)] <- gamma.prior
   return(list(Xdum = xdummy, Ydum = ydummy))
 }
+
+
+##### break
+
 nsave <- 500
 nburn <- 500
 ntot <- nsave + nburn
@@ -92,6 +138,10 @@ ntot <- nsave + nburn
 A.store <- array(0, c(nsave, K, M))
 y.store <- matrix(0, nsave, M)
 IRF.store <- array(NA, c(nsave, M, M, k))
+
+
+
+# eco ---------------------------------------------------------------------
 
 for (irep in 1:ntot) {
   #Step I: Simulate from the posterior of A

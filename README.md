@@ -2,7 +2,6 @@
 
 Money, Credit & Finance paper dealing with business cycles in resource dependent economies.
 
-
 # Literature Review
 
 ### Mallick & Sousa 2002
