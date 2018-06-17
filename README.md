@@ -2,6 +2,13 @@
 
 Money, Credit & Finance paper dealing with business cycles in resource dependent economies.
 
+# To-Do
+
+- vary transformations (HP, first diff, log...)
+- add stock indices to data
+- add commodities in different forms
+
+
 # Literature Review
 
 ### Mallick & Sousa 2002
