@@ -8,10 +8,9 @@ Money, Credit & Finance paper dealing with business cycles in resource dependent
 - add stock indices to data
 - add commodities in different forms
 
-
 # Literature Review
 
-### Mallick & Sousa 2002
+### Mallick & Sousa 2012
 
 - Five BRICS countries (BR, RU, IN, CN, ZA)
 - Evaluate transmission of monetary policy & fluctuations in commodity prices
