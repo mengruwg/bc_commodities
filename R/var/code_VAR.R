@@ -2,7 +2,7 @@ require(ggplot2)
 require(ggthemes)
 require(reshape2)
 
-mlag <- function(X, lag)
+lag_x <- function(X, lag)
 {
   p <- lag
   X <- as.matrix(X)
@@ -17,13 +17,13 @@ mlag <- function(X, lag)
 }
 
 sign_restr <- FALSE
-p <- 4
+p <- lag
 cons <- TRUE
 nhor <- 20
 
 
 Y <- as.matrix(data)
-X <- mlag(Y, p)
+X <- lag_x(Y, p)
 Y <- Y[(p + 1):nrow(Y), ]
 X <- X[(p + 1):nrow(X), ]
 if (cons) {
@@ -37,8 +37,8 @@ B.OLS <- solve(crossprod(X)) %*% crossprod(X, Y)
 yfit <- X %*% B.OLS
 
 SSE <- crossprod(Y - X %*% B.OLS)
-T <- nrow(Y)
-SIGMA <- SIGMA.OLS <- SSE / (T - K)
+N <- nrow(Y)
+SIGMA <- SIGMA.OLS <- SSE / (N - K)
 
 #Start constructing a VAR prior
 #Step A: Run a set of AR(p) models
@@ -84,7 +84,7 @@ V.post <- solve(crossprod(XX))
 A.post <- V.post %*% crossprod(XX, YY)
 
 nsave <- 500
-nburn <- 500
+nburn <- 1000
 ntot <- nsave + nburn
 
 A.store <- array(0, c(nsave, K, M))
@@ -92,23 +92,28 @@ y.store <- matrix(0, nsave, M)
 IRF.store <- array(NA, c(nsave, M, M, nhor))
 
 for (irep in 1:ntot) {
+  
   #Step I: Simulate from the posterior of A
   bigV.post <- kronecker(SIGMA, V.post)
   cholV.post <- t(chol(bigV.post))
   A.draw <- as.vector(A.post) + cholV.post %*% rnorm(K * M)
   A.draw <- matrix(A.draw, K, M)
+  
   #Step II: Do SIGMA|Y from IW
   S_post <- crossprod(YY - XX %*% A.post)
   v_post <- nrow(YY)
   SIGMAinv <- matrix(rWishart(1, v_post, solve(S_post)), M, M)
   SIGMA <- solve(SIGMAinv)
+  
   if (irep > nburn) {
+    
     A.store[irep - nburn, , ] <- A.draw
+    
     #Calculate one-step-ahead predictive density
     if (cons) {
-      X.new <- c(Y[T, ], X[T, 1:(M * (p - 1))], 1)
+      X.new <- c(Y[N, ], X[N, 1:(M * (p - 1))], 1)
     } else{
-      X.new <- c(Y[T, ], X[T, 1:(M * (p - 1))])
+      X.new <- c(Y[N, ], X[N, 1:(M * (p - 1))])
     }
     y.store[irep - nburn, ] <-
       X.new %*% A.draw + t(t(chol(SIGMA)) %*% rnorm(M))
@@ -125,6 +130,7 @@ for (irep in 1:ntot) {
       B.comp[1:M, ] <- t(A.draw)
       B.comp[(M + 1):K, 1:(K - M)] <- diag(M * (p - 1))
     }
+    
     #Step II: Compute IRFs
     #Do IRFs
     if (sign_restr) {
@@ -162,15 +168,15 @@ for (irep in 1:ntot) {
   }
 }
 
-IRF.low <- apply(IRF.store, c(2, 3, 4), quantile, 0.16, na.rm = TRUE)
-IRF.high <- apply(IRF.store, c(2, 3, 4), quantile, 0.84, na.rm = TRUE)
+IRF.low <- apply(IRF.store, c(2, 3, 4), quantile, 0.9, na.rm = TRUE)
+IRF.high <- apply(IRF.store, c(2, 3, 4), quantile, 0.1, na.rm = TRUE)
 IRF.median <- apply(IRF.store, c(2, 3, 4), median, na.rm = TRUE)
 
 #Start plotting the IRFs w.r.t the different shocks
-par(mfrow = c(5, 5))
+par(mfrow = c(3, 3))
 
-for (ii in 1:5) {
-  for (jj in 1:5) {
+for (ii in 1:3) {
+  for (jj in 1:3) {
     ts.plot(
       cbind(IRF.low[ii, jj, ], IRF.high[ii, jj, ], IRF.median[ii, jj, ]),
       ylab = colnames(Y)[[ii]],
@@ -202,7 +208,6 @@ plot_irf <- function(irf, impulse = 1, var_names) {
   ggplot(x, aes(x = id, y = value, colour = variable)) +
     geom_line() +
     scale_color_manual(values = plot_col) +
-    theme_wsj() +
     theme(legend.position = "none") +
     facet_grid(facet ~ ., scales = "free_y") +
     ggtitle(paste(var_names[impulse], "shock")) +

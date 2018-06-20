@@ -94,4 +94,4 @@ irf <- irfvar(ols$A, B_inv, lag, horizon = 100)
 
 
 plots <- plot_irf(irf)
-plots[[1]]
+plots[[3]]

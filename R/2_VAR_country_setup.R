@@ -1,6 +1,8 @@
 data <- readRDS("data/country_data.RDS")
 
 plot_country <- function(x) {
+  # remove exch to circumvent 10 var limit
+  x$exch_rate <- NULL
   plot(ts(x))
 }
 
@@ -20,7 +22,7 @@ plot_country <- function(x) {
 # Germany uses M2
 
 plot_country(data$AUS)
-data_aus <- data$AUS[c(-1, -5, -8)]
+data_aus <- data$AUS[c(-1, -5, -8, -11)]
 data_aus <- data_aus[complete.cases(data_aus), ]
 
 plot_country(data$CHL)
@@ -28,7 +30,7 @@ data_chl <- data$CHL[c(-1, -4, -5, -8)]
 data_chl <- data_chl[complete.cases(data_chl), ]
 
 plot_country(data$NOR)
-data_nor <- data$NOR[c(-1, -4, -5, -8)]
+data_nor <- data$NOR[c(-1, -4, -5, -8, -11)]
 data_nor <- data_nor[complete.cases(data_nor), ]
 
 plot_country(data$ZAF)
@@ -43,4 +45,5 @@ plot_country(data$USA)
 data_usa <- data$USA[c(-1, -5, -8)]
 data_usa <- data_usa[complete.cases(data_usa), ]
 
-rm(data)
+rm(data, plot_country)
+   

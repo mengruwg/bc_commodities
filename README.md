@@ -5,8 +5,18 @@ Money, Credit & Finance paper dealing with business cycles in resource dependent
 # To-Do
 
 - vary transformations (HP, first diff, log...)
-- add stock indices to data
 - add commodities in different forms
+
+## Data
+- GDP
+- Inflation
+- Commodity Prices
+- Exports - Imports
+- Bond 10Y Rate
+- M3
+- Monetary Policy Rate
+- Stock Indices
+
 
 # Literature Review
 

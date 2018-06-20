@@ -3,13 +3,15 @@ library(zoo)
 # Aggregate all our data into a manageable format on per-country basis
 
 # Dataframes of our commodity indices in a list
-indices <- readRDS("data/indices_stationary.rds")
+indices <- readRDS("data/indices_stationary.rds") # deprecated
 # A dataframe of exchange rates
 exch_rates <- readRDS("data/exch_rates_q_mean.rds")
 # Dataframes of monetary policy rates in a list
-mp_rates <- readRDS("data/mp_rates.rds")
+mp_rates <- readRDS("data/raw_data/mp_rates.rds")
 # Dataframes of OECD data in a list
-oecd_data <- readRDS("data/oecd_data.rds")
+oecd_data <- readRDS("data/oecd_logdiff.rds")
+# Stock indices
+stock_indices <- readRDS("data/stocks_logdiff.rds")
 
 
 # Australia ---------------------------------------------------------------
@@ -28,7 +30,7 @@ names(AUS)[which(names(AUS) == "Value")] <- "mp_rate"
 # carry over the last value if the rate wasn't adjusted
 AUS$mp_rate <- na.locf(AUS$mp_rate, na.rm = FALSE)
 # use i3m for missing values
-i3m <- readRDS("data/oecd_i3m_interbank.rds")
+i3m <- readRDS("data/raw_data/oecd_i3m_interbank.rds")
 i3m <- i3m[i3m$LOCATION == "AUS", ]
 i3m <- i3m[c("TIME", "Value")]
 i3m$TIME <- as.yearqtr(i3m$TIME, format = "%Y-Q%q")
@@ -39,6 +41,10 @@ AUS$Value <- NULL
 # add the SPGSCI
 AUS <- merge(AUS, indices$spgsci, by = "TIME", all.x = TRUE)
 names(AUS)[which(names(AUS) == "Value")] <- "spgsci"
+
+# add stock indices
+AUS <- merge(AUS, stock_indices[c("TIME", "AUS")], by = "TIME", all.x = TRUE)
+names(AUS)[which(names(AUS) == "AUS")] <- "equity"
 
 #AUS <- AUS[complete.cases(AUS), ]
 
@@ -63,6 +69,10 @@ CHL$mp_rate <- na.locf(CHL$mp_rate, na.rm = FALSE)
 CHL <- merge(CHL, indices$spgsci, by = "TIME", all.x = TRUE)
 names(CHL)[which(names(CHL) == "Value")] <- "spgsci"
 
+# add stock indices
+CHL <- merge(CHL, stock_indices[c("TIME", "CHL")], by = "TIME", all.x = TRUE)
+names(CHL)[which(names(CHL) == "CHL")] <- "equity"
+
 #CHL <- CHL[complete.cases(CHL), ]
 
 
@@ -86,6 +96,10 @@ DEU$mp_rate <- na.locf(DEU$mp_rate, na.rm = FALSE)
 DEU <- merge(DEU, indices$spgsci, by = "TIME", all.x = TRUE)
 names(DEU)[which(names(DEU) == "Value")] <- "spgsci"
 
+# add stock indices
+DEU <- merge(DEU, stock_indices[c("TIME", "DEU")], by = "TIME", all.x = TRUE)
+names(DEU)[which(names(DEU) == "DEU")] <- "equity"
+
 #DEU <- DEU[complete.cases(DEU), ]
 
 
@@ -105,7 +119,7 @@ names(NOR)[which(names(NOR) == "Value")] <- "mp_rate"
 # carry over the last value if the rate wasn't adjusted
 NOR$mp_rate <- na.locf(NOR$mp_rate, na.rm = FALSE)
 # use i3m for missing values
-i3m <- readRDS("data/oecd_i3m_interbank.rds")
+i3m <- readRDS("data/raw_data/oecd_i3m_interbank.rds")
 i3m <- i3m[i3m$LOCATION == "NOR", ]
 i3m <- i3m[c("TIME", "Value")]
 i3m$TIME <- as.yearqtr(i3m$TIME, format = "%Y-Q%q")
@@ -116,6 +130,10 @@ NOR$Value <- NULL
 # add the SPGSCI
 NOR <- merge(NOR, indices$spgsci, by = "TIME", all.x = TRUE)
 names(NOR)[which(names(NOR) == "Value")] <- "spgsci"
+
+# add stock indices
+NOR <- merge(NOR, stock_indices[c("TIME", "NOR")], by = "TIME", all.x = TRUE)
+names(NOR)[which(names(NOR) == "NOR")] <- "equity"
 
 #NOR <- NOR[complete.cases(NOR), ]
 
@@ -140,6 +158,10 @@ USA$mp_rate <- na.locf(USA$mp_rate, na.rm = FALSE)
 USA <- merge(USA, indices$spgsci, by = "TIME", all.x = TRUE)
 names(USA)[which(names(USA) == "Value")] <- "spgsci"
 
+# add stock indices
+USA <- merge(USA, stock_indices[c("TIME", "USA")], by = "TIME", all.x = TRUE)
+names(USA)[which(names(USA) == "USA")] <- "equity"
+
 #USA <- USA[complete.cases(USA), ]
 
 
@@ -162,6 +184,11 @@ ZAF$mp_rate <- na.locf(ZAF$mp_rate, na.rm = FALSE)
 # add the SPGSCI
 ZAF <- merge(ZAF, indices$spgsci, by = "TIME", all.x = TRUE)
 names(ZAF)[which(names(ZAF) == "Value")] <- "spgsci"
+
+# add stock indices
+ZAF <- merge(ZAF, stock_indices[c("TIME", "ZAF")], by = "TIME", all.x = TRUE)
+names(ZAF)[which(names(ZAF) == "ZAF")] <- "equity"
+
 
 #ZAF <- ZAF[complete.cases(ZAF), ]
 

@@ -1,4 +1,5 @@
 library(readr)
+library(zoo)
 
 stock_indices <- read_delim("data/datastream/stock_indices.csv", 
                             ";", escape_double = FALSE, 
@@ -12,6 +13,6 @@ stock_indices <- read_delim("data/datastream/stock_indices.csv",
                                             grouping_mark = "."), 
                             trim_ws = TRUE)
 
-names(stock_indices) <- c("DEU", "USA", "NOR", "AUS", "CHL", "ZAF")
+names(stock_indices) <- c("TIME", "DEU", "USA", "NOR", "AUS", "CHL", "ZAF")
 
 saveRDS(stock_indices, "data/raw_data/stock_indices.rds")

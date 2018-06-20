@@ -33,7 +33,7 @@ stationarise_oecd <- function(x) {
 }
 
 ### gdp
-gdp <- readRDS("data/oecd_gdp.rds")
+gdp <- readRDS("data/raw_data/oecd_gdp.rds")
 gdp <- gdp[c("TIME", "LOCATION", "Value")]
 gdp$TIME <- as.yearqtr(gdp$TIME, format = "%Y-Q%q")
 # check data
@@ -42,7 +42,7 @@ gdp <- stationarise_oecd(gdp)
 plot_stationary(gdp)
 
 ### inflation
-inflation <- readRDS("data/oecd_inflation.rds")
+inflation <- readRDS("data/raw_data/oecd_inflation.rds")
 inflation <- inflation[c("TIME", "LOCATION", "Value")]
 inflation$TIME <- as.yearqtr(inflation$TIME, format = "%Y-Q%q")
 # check data
@@ -53,7 +53,7 @@ plot_stationary(inflation)
 # looks pretty bad for CHL, but we will only look at 1990 onwards for it
 
 ### m3
-m3 <- readRDS("data/oecd_m3.rds")
+m3 <- readRDS("data/raw_data/oecd_m3.rds")
 m3 <- m3[c("TIME", "LOCATION", "Value")]
 m3$TIME <- as.yearqtr(m3$TIME, format = "%Y-Q%q")
 # lets add Datastreams M2 for Germany
@@ -75,7 +75,7 @@ plot_stationary(m3)
 # Germany has a bad jump at 1995, but I guess better than nothing
 
 ### imports
-imports <- readRDS("data/oecd_imports.rds")
+imports <- readRDS("data/raw_data/oecd_imports.rds")
 imports <- imports[c("TIME", "LOCATION", "Value")]
 imports$TIME <- as.yearqtr(imports$TIME, format = "%Y-Q%q")
 # check data
@@ -84,7 +84,7 @@ imports <- stationarise_oecd(imports)
 plot_stationary(imports)
 
 ### exports
-exports <- readRDS("data/oecd_exports.rds")
+exports <- readRDS("data/raw_data/oecd_exports.rds")
 exports <- exports[c("TIME", "LOCATION", "Value")]
 exports$TIME <- as.yearqtr(exports$TIME, format = "%Y-Q%q")
 # check data
@@ -102,7 +102,7 @@ plot_stationary(trade_balance)
 
 
 ### i10y
-i10y <- readRDS("data/oecd_i10y_government.rds")
+i10y <- readRDS("data/raw_data/oecd_i10y_government.rds")
 i10y <- i10y[c("TIME", "LOCATION", "Value")]
 i10y$TIME <- as.yearqtr(i10y$TIME, format = "%Y-Q%q")
 # check data
@@ -112,7 +112,7 @@ i10y <- unmelt_oecd(i10y)
 #plot_stationary(i10y)
 
 ### i3m
-i3m <- readRDS("data/oecd_i3m_interbank.rds")
+i3m <- readRDS("data/raw_data/oecd_i3m_interbank.rds")
 i3m <- i3m[c("TIME", "LOCATION", "Value")]
 i3m$TIME <- as.yearqtr(i3m$TIME, format = "%Y-Q%q")
 # check data
@@ -126,4 +126,4 @@ i3m <- unmelt_oecd(i3m)
 oecd_data <- list(gdp, inflation, i10y, i3m, trade_balance, m3)
 names(oecd_data) <- c("gdp", "infl", "i10y", "i3m", "trade", "m3")
 
-saveRDS(oecd_data, "data/oecd_data.rds")
+saveRDS(oecd_data, "data/oecd_logdiff.rds")

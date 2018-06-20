@@ -1,25 +1,18 @@
-source("R/VAR_country_setup.R")
-
-
-data <- data_nor[c(6, 4, 5, 1, 2, 3)]
-data[c(2, 4, 5, 6)] <- data[c(2, 4, 5, 6)] * 100
-# data <- data_nor[c(7, 3, 1, 5, 6, 4, 2)]
-# data[c(2, 5, 6, 7)] <- data[c(2, 5, 6, 7)] * 100
-
-
-# vars --------------------------------------------------------------------
-
-# maybe change IC
-model <- VAR(y = data, lag.max = 8, ic = "AIC")
-
-# restricted irf
-plot(irf(model))
-# irf under long-run restrictions
-plot(irf(BQ(model)))
-
-
-
 # econ --------------------------------------------------------------------
+
+lag_x <- function(X, lag)
+{
+  p <- lag
+  X <- as.matrix(X)
+  Traw <- nrow(X)
+  N <- ncol(X)
+  Xlag <- matrix(0, Traw, p * N)
+  for (ii in 1:p) {
+    Xlag[(p + 1):Traw, (N * (ii - 1) + 1):(N * ii)] = X[(p + 1 - ii):(Traw -
+                                                                        ii), (1:N)]
+  }
+  return(Xlag)
+}
 
 estimate_var <- function(Y, 
                          lag = 2) {
