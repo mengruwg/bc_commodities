@@ -306,14 +306,14 @@ write_rds(a, "datCOM.RDS")
 
 setwd("C:/Users/cenge/Desktop/Money Credit Finance/Paper/bc_commodities/data/commodities")
 #futures
-futures_q <- subset(b, select= c(Date, Brent1yr, Brent2yr, Brent3yr, Brent6m, WTI1yr, WTI2yr, WTI3yr, WTI6m))
+futures_q <- subset(datCOM_means_q, select= c(Group.1, Brent1yr, Brent2yr, Brent3yr, Brent6m, WTI1yr, WTI2yr, WTI3yr, WTI6m))
 write_rds(futures_q, "futures_qu.RDS")
 
 #indices
-indices_q <- subset(b, select= c(Date, BBIndex, Prec.met.Index, BBIndustrialIndex, BBEnergyIndex, SPIndustrialIndex, SPIndex, SP.prec.metIndex, SP.crude.oilIndex, SP.Nat.GasIndex, SP.AgriIndex, SP.Agri.LiveIndex, SP.LivestockIndex, SP.EnergyIndex, SP.CopperIndex, SP.AluminiumIndex,SP.GoldIndex))
+indices_q <- subset(datCOM_means_q, select= c(Group.1, BBIndex, Prec.met.Index, BBIndustrialIndex, BBEnergyIndex, SPIndustrialIndex, SPIndex, SP.prec.metIndex, SP.crude.oilIndex, SP.Nat.GasIndex, SP.AgriIndex, SP.Agri.LiveIndex, SP.LivestockIndex, SP.EnergyIndex, SP.CopperIndex, SP.AluminiumIndex,SP.GoldIndex))
 write_rds(indices_q, "indices_qu.RDS")
 
 
 #commodities
-commodities_q <- subset(b, select=-c(Date, Brent1yr, Brent2yr, Brent3yr, Brent6m, WTI1yr, WTI2yr, WTI3yr, WTI6m, BBIndex, Prec.met.Index, BBIndustrialIndex, BBEnergyIndex, SPIndustrialIndex, SPIndex, SP.prec.metIndex, SP.crude.oilIndex, SP.Nat.GasIndex, SP.AgriIndex, SP.Agri.LiveIndex, SP.LivestockIndex, SP.EnergyIndex, SP.CopperIndex, SP.AluminiumIndex,SP.GoldIndex))
+commodities_q <- subset(datCOM_means_q, select=-c(Brent1yr, Brent2yr, Brent3yr, Brent6m, WTI1yr, WTI2yr, WTI3yr, WTI6m, BBIndex, Prec.met.Index, BBIndustrialIndex, BBEnergyIndex, SPIndustrialIndex, SPIndex, SP.prec.metIndex, SP.crude.oilIndex, SP.Nat.GasIndex, SP.AgriIndex, SP.Agri.LiveIndex, SP.LivestockIndex, SP.EnergyIndex, SP.CopperIndex, SP.AluminiumIndex,SP.GoldIndex))
 write_rds(commodities_q, "comm_qu.RDS")
