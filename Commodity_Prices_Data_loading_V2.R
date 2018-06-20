@@ -299,7 +299,11 @@ a<- merge(a, Zinc_Price, by="Date", all=T)
 
 a$Date <- dmy(a$Date)
 
-
+custommean <- function(x){mean(x, na.rm = TRUE)}
+b<-a
+b$Date_q <- as.yearqtr(b$Date)
+datCOM_means_q <- aggregate(b[,2:49], list(b$Date_q), custommean)
+write_rds(datCOM_means_q, "datCOM2.RDS")
 setwd("/bc_commodities/data/commodities")
 write_rds(a, "datCOM.RDS")
 
