@@ -5,7 +5,8 @@ library(REdaS)
 library(psych)
 library(readr)
 
-datCOM <- readRDS("data/raw_data/commodities.rds")
+setwd("\data\commodities")
+datCOM <- readRDS("datCOM.rds")
 #ohne futures
 datCOM2 <-subset(datCOM, select= -c(Brent1yr, Brent2yr, Brent3yr, Brent6m, WTI1yr, WTI2yr, WTI3yr, WTI6m))
 #Ohne fehlende Daten
@@ -47,4 +48,7 @@ colnames(dat.scores)<- c("OGI", "Energy.agri", "Metals")
 datcom3 <- cbind(datCOM_means_m2$Group.1, dat.scores)
 colnames(datcom3) <- c("Date","OGI", "Energy.agri", "Metals")
 
-write_rds(datcom3, "data/comm_PCA.rds")
+write_rds(datcom3, "comm_PCA.rds")
+datcom3$Date2 <- as.yearqtr(datcom3$Date)
+datcom4<- aggregate(datcom3[,2:4], list(datcom3$Date2), custommean)
+write_rds(datcom4, "comm_PCA_q.rds")
