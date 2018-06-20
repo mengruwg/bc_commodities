@@ -72,9 +72,7 @@ colnames(datcom3) <- c("Date","En.In.Oi.", "Me.Ag")
 
 #Datei erstellen für Indices PCA Scores
 write_rds(datcom3, "Ind_PCA.rds")
-datcom3$Date2 <- as.yearqtr(datcom3$Date)
-datcom4<- aggregate(datcom3[,2:4], list(datcom3$Date2), custommean)
-write_rds(datcom4, "Ind_PCA_q.rds")
+
 
 
 
