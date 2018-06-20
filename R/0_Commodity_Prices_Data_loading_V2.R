@@ -2,6 +2,7 @@ library(readr)
 library(readxl)
 
 library(readr)
+setwd("C:/Users/cenge/Desktop/Money Credit Finance/Paper/bc_commodities/data/commodities")
 
 data_commodities <- read_delim("data_commodities.csv", 
                                "\t", escape_double = FALSE, col_types = cols(`CC21AMMN Steel Index` = col_double(), 
@@ -30,7 +31,6 @@ data_indices <- read_delim("data_indices.csv",
                            locale = locale(decimal_mark = ",", grouping_mark = "."), 
                            trim_ws = TRUE, skip = 1)
 
-library(readr)
 data_oilfutures <- read_delim("data_oilfutures.csv", 
                                ";", escape_double = FALSE, col_types = cols(`Brent + 2Y` = col_number(), 
                                                                             `Brent + 3Y` = col_number(), Date = col_number(), 
@@ -41,9 +41,6 @@ data_oilfutures <- read_delim("data_oilfutures.csv",
                                locale = locale(decimal_mark = ",", grouping_mark = "."), 
                                trim_ws = TRUE, skip = 1)
 
-
-#Date = col_date(format = "%d.%m.%Y"), Date_1 = col_date(format = "%d.%m.%Y"), Date_3 = col_date(format = "%d.%m.%Y"), Date_5 = col_date(format = "%d.%m.%Y"), Date_6 = col_date(format = "%d.%m.%Y"), Date_7 = col_date(format = "%d.%m.%Y"), Date_8 = col_date(format = "%d.%m.%Y"),Date_9 = col_date(format = "%d.%m.%Y"),Date_10 = col_date(format = "%d.%m.%Y"),Date_11 = col_date(format = "%d.%m.%Y"),Date_12 = col_date(format = "%d.%m.%Y"),Date_13 = col_date(format = "%d.%m.%Y"),Date_14 = col_date(format = "%d.%m.%Y"),Date_15 = col_date(format = "%d.%m.%Y"),Date_16 = col_date(format = "%d.%m.%Y"),Date_17 = col_date(format = "%d.%m.%Y"),Date_18 = col_date(format = "%d.%m.%Y"),Date_19 = col_date(format = "%d.%m.%Y"),Date_20 = col_date(format = "%d.%m.%Y"), Date_21 = col_date(format = "%d.%m.%Y"),Date_22 = col_date(format = "%d.%m.%Y"), Date_23 = col_date(format = "%d.%m.%Y")
-#col_types = cols(Date = col_date(format = "%d.%m.%Y"), 
 
 library(REdaS)
 library(readr)
@@ -284,7 +281,7 @@ a<- merge(a, SP.Gold_index, by="Date", all=T)
 a<- merge(a, SP.Livestock_index, by="Date", all=T)
 a<- merge(a, SP.Nat.Gas_index, by="Date", all=T)
 
-a<- merge(a, SP.Nat.Gas_index, by="Date", all=T)
+a<- merge(a, SP.prec.met_index, by="Date", all=T)
 a<- merge(a, SPIndustrial_index, by="Date", all=T)
 a<- merge(a, Steel_Index, by="Date", all=T)
 a<- merge(a, Steel_Price, by="Date", all=T)
@@ -303,7 +300,20 @@ custommean <- function(x){mean(x, na.rm = TRUE)}
 b<-a
 b$Date_q <- as.yearqtr(b$Date)
 datCOM_means_q <- aggregate(b[,2:49], list(b$Date_q), custommean)
-write_rds(datCOM_means_q, "datCOM2.RDS")
-setwd("/bc_commodities/data/commodities")
+write_rds(datCOM_means_q, "datCOM_qu.RDS")
+setwd("C:/Users/cenge/Desktop/Money Credit Finance/Paper/bc_commodities/data/raw_data")
 write_rds(a, "datCOM.RDS")
 
+setwd("C:/Users/cenge/Desktop/Money Credit Finance/Paper/bc_commodities/data/commodities")
+#futures
+futures_q <- subset(b, select= c(Date, Brent1yr, Brent2yr, Brent3yr, Brent6m, WTI1yr, WTI2yr, WTI3yr, WTI6m))
+write_rds(futures_q, "futures_qu.RDS")
+
+#indices
+indices_q <- subset(b, select= c(Date, BBIndex, Prec.met.Index, BBIndustrialIndex, BBEnergyIndex, SPIndustrialIndex, SPIndex, SP.prec.metIndex, SP.crude.oilIndex, SP.Nat.GasIndex, SP.AgriIndex, SP.Agri.LiveIndex, SP.LivestockIndex, SP.EnergyIndex, SP.CopperIndex, SP.AluminiumIndex,SP.GoldIndex))
+write_rds(indices_q, "indices_qu.RDS")
+
+
+#commodities
+commodities_q <- subset(b, select=-c(Date, Brent1yr, Brent2yr, Brent3yr, Brent6m, WTI1yr, WTI2yr, WTI3yr, WTI6m, BBIndex, Prec.met.Index, BBIndustrialIndex, BBEnergyIndex, SPIndustrialIndex, SPIndex, SP.prec.metIndex, SP.crude.oilIndex, SP.Nat.GasIndex, SP.AgriIndex, SP.Agri.LiveIndex, SP.LivestockIndex, SP.EnergyIndex, SP.CopperIndex, SP.AluminiumIndex,SP.GoldIndex))
+write_rds(commodities_q, "comm_qu.RDS")

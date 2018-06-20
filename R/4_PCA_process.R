@@ -5,7 +5,7 @@ library(REdaS)
 library(psych)
 library(readr)
 
-setwd("\data\commodities")
+setwd("C:/Users/cenge/Desktop/Money Credit Finance/Paper/bc_commodities/data/raw_data")
 datCOM <- readRDS("datCOM.rds")
 #ohne futures
 datCOM2 <-subset(datCOM, select= -c(Brent1yr, Brent2yr, Brent3yr, Brent6m, WTI1yr, WTI2yr, WTI3yr, WTI6m))
