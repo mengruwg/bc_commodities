@@ -2,6 +2,7 @@ library(reshape2)
 library(zoo)
 library(readr)
 library(ggplot2)
+library(mFilter)
 
 plot_data <- function(x) {
   ggplot(x, aes(x = TIME, y = Value, colour = LOCATION)) +
@@ -25,6 +26,7 @@ unmelt_oecd <- function(x) {
 stationarise_oecd <- function(x) {
   x$Value <- log(x$Value)
   x <- dcast(x, TIME ~ LOCATION, value.var = "Value")
+  
   x[-1, 2:ncol(x)] <- apply(x[2:ncol(x)], 2, diff)
   # drop first row
   x <- x[-1, ]
@@ -38,8 +40,22 @@ gdp <- gdp[c("TIME", "LOCATION", "Value")]
 gdp$TIME <- as.yearqtr(gdp$TIME, format = "%Y-Q%q")
 # check data
 plot_data(gdp)
-gdp <- stationarise_oecd(gdp)
-plot_stationary(gdp)
+#gdp <- stationarise_oecd(gdp)
+#plot_stationary(gdp)
+
+# apply HP for GDP
+x <- gdp
+x$Value <- log(gdp$Value)
+x <- dcast(x, TIME ~ LOCATION, value.var = "Value")
+# remove last row, cause missing
+x <- x[-nrow(x), ]
+
+x[c(-1, -3)] <- apply(x[c(-1, -3)], 2, function(x) {
+  x <- hpfilter(x, freq = 1600, type = "lambda")$cycle
+})
+x$CHL[which(!is.na(x$CHL))] <- hpfilter(na.omit(x$CHL), freq = 1600, type = "lambda")$cycle
+
+gdp <- x
 
 ### inflation
 inflation <- readRDS("data/raw_data/oecd_inflation.rds")
