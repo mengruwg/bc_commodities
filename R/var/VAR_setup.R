@@ -32,7 +32,6 @@ bvars[[6]] <- readRDS("data/bvars/bvar_nor.rds")
 
 i <- 3
 fit_ols <- VAR(y = data[[i]], lag = 3)
-
 fit <- bvars[[i]]
 
 
@@ -95,6 +94,8 @@ abline(h = c(0, 2, 4), v = gp, lty = 3, lwd = 0.3, col = "gray")
 
 # irf ---------------------------------------------------------------------
 
+
+
 bvarsv_irf <- function(bvar, impulse = 1, response = 1, title = "", ols) {
   irf <- impulse.responses(bvar, scenario = 2,
                            impulse.variable = impulse, 
@@ -120,8 +121,16 @@ bvarsv_irf <- function(bvar, impulse = 1, response = 1, title = "", ols) {
     lines(x = 1:20, y = ira.ols, lwd = 2, lty = 2, col = "gray")
   }
 }
+data <- readRDS("data/bvars/ols_all.rds")
+bvars[[1]] <- readRDS("data/bvars/bvar_usa.rds")
+bvars[[2]] <- readRDS("data/bvars/bvar_deu.rds")
+bvars[[3]] <- readRDS("data/bvars/bvar_zaf.rds")
+bvars[[4]] <- readRDS("data/bvars/bvar_chl.rds")
+bvars[[5]] <- readRDS("data/bvars/bvar_aus.rds")
+bvars[[6]] <- readRDS("data/bvars/bvar_nor.rds")
 
-bvarsv_irf(bvars[[i]], 1, 1, names[i], VAR(y = data[[i]], lag = 3))
-bvarsv_irf(bvars[[i]], 1, 2, names[i], VAR(y = data[[i]], lag = 3))
-bvarsv_irf(bvars[[i]], 1, 3, names[i], VAR(y = data[[i]], lag = 3))
+i = 3
 
+bvarsv_irf(bvars[[i]], 1, 1, names[i])
+bvarsv_irf(bvars[[i]], 1, 2, names[i])
+bvarsv_irf(bvars[[i]], 1, 3, names[i])

@@ -3,6 +3,8 @@ title: "Commodity Prices and the Business Cycle in resource-dependent Economies"
 subtitle: "5741 – Money, Credit & Finance"
 author: "Casper Engelen, Matthias Hagen & Nikolas Kuschnig"
 date: "2018-06-21"
+header-includes:
+  - \widowpenalties 1 5000
 output: 
   beamer_presentation:
     theme: "metropolis"
@@ -150,8 +152,149 @@ abline(h = c(0, 2, 4), v = grid, lty = 3, lwd = 0.3, col = "gray")
 
 # VAR, Modelling
 
-We have considered 
+1. First steps with `vars` package [@pfaff2013package]
+2. Adapted a script from Econometrics with a Minnesota prior
+    * Replaced sign- with short-run-restrictions.
+3. Work on estimation from scratch, based on @kilian2017structural
+    * Temporally intensive
+4. Current results with `bvarsv` package [@krueger2015bvarsv]
+    * Computationally intensive
+    * Handles stochastic volatility
+
+# VAR, Impulse Responses {.allowframebreaks}
+
+Impulse responses of a commodity price shock on three-dimensional VARs for Chile and South Africa.
+
+**Chile**
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=6}
+require(ggplot2)
+require(cowplot)
+
+bvarsv_irf <- function(bvar, impulse = 1, response = 1, title = "", variable, ols) {
+  irf <- impulse.responses(bvar, scenario = 2,
+                           impulse.variable = impulse, 
+                           response.variable = response,
+                           draw.plot = FALSE)
+  
+  pdat <- t(apply(irf$irf, 2, function(z) quantile(z, c(0.05, 0.25, 0.5, 0.75, 0.95))))
+  pdat <- data.frame("id" = 1:nrow(pdat), pdat)
+  names(pdat) <- c("id", "5P" ,"25P", "50P", "75P", "95P")
+  
+  ggplot(pdat, aes(x = id)) +
+    geom_ribbon(aes(ymin = `5P`, ymax = `95P`), fill = "grey60") +
+    geom_ribbon(aes(ymin = `25P`, ymax = `75P`), fill = "grey30") +
+    geom_line(aes(y = `50P`), col = "black", size = 1) +
+    scale_x_continuous(expand = c(0, 0), breaks = seq(2, 20, 4)) +
+    geom_hline(yintercept = 0) +
+    theme_minimal() +
+    ylab("") +
+    xlab(title)
+}
+
+names <- c("USA", "DEU", "ZAF", "CHL", "AUS", "NOR")
+
+data <- readRDS("data/bvars/ols_all.rds")
+bvars <- vector("list", 6)
+bvars[[1]] <- readRDS("data/bvars/bvar_usa.rds")
+bvars[[2]] <- readRDS("data/bvars/bvar_deu.rds")
+bvars[[3]] <- readRDS("data/bvars/bvar_zaf.rds")
+bvars[[4]] <- readRDS("data/bvars/bvar_chl.rds")
+bvars[[5]] <- readRDS("data/bvars/bvar_aus.rds")
+bvars[[6]] <- readRDS("data/bvars/bvar_nor.rds")
+
+i = 4
+plot <- vector("list", 3)
+plot[[1]] <- bvarsv_irf(bvars[[i]], 1, 1, "spgsci", "spgsci")
+plot[[2]] <- bvarsv_irf(bvars[[i]], 1, 2, "gdp", "gdp")
+plot[[3]] <- bvarsv_irf(bvars[[i]], 1, 3, "mp_rate", "mp_rate")
+
+plot_grid(plot[[1]], plot[[2]], plot[[3]], nrow = 1)
+```
+
+**South Africa**
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=6}
+i = 3
+plot <- vector("list", 3)
+plot[[1]] <- bvarsv_irf(bvars[[i]], 1, 1, "spgsci", "spgsci")
+plot[[2]] <- bvarsv_irf(bvars[[i]], 1, 2, "gdp", "gdp")
+plot[[3]] <- bvarsv_irf(bvars[[i]], 1, 3, "mp_rate", "mp_rate")
+
+plot_grid(plot[[1]], plot[[2]], plot[[3]], nrow = 1)
+```
+
+# VAR, Outlook
+
+* Utilise the data for larger models
+* Figure out model & variable selection
+* More work on analysing the models
+* **Focus on commodities**
+    * Try different commodities per country
+    * Utilise our results from PCA
 
 # PCA
 
-# References
+*Principal Componenent Analysis* is
+
+* an orthogonal transformation,
+* that is used to reduce the amount of variables.
+
+Whilst it is sensitive to scaling it can be useful for reducing dimensionality in VAR models.
+
+We use it for our array of commodity data (40+ timeseries).
+
+# PCA, Commodities
+
+We start with prices of single commodities and indices. They can generally be divided akin to:
+
+| Precious Metals | Industrial Metals | Energy | Other |
+| --- | --- | --- | --- |
+| Gold | Copper | Oil | Agriculture |
+| Silver | Iron | Gas | Livestock |
+| ... | ... | ... | ... |
+
+# PCA, Process
+
+1. Bartlett's test of sphericity
+    * H0: variances are equal across variables
+    * p-value > 0.05
+2. KMO-Criterion
+    * Sampling adequacy
+    * Value < 0.8
+3. PCA
+    
+# PCA, Results
+
+| Start | # of Variables | Status | Bartlett's test p | KMO Criterion |
+| --- | --- | --- | --- | --- |
+| 1970 | 11 | Rejected | < 2.22e-16 | 0.77 |
+| 1975 | 12 | Rejected | < 2.22e-16 | 0.75 |
+| 1980 | 14 | Accepted | < 2.22e-16 | 0.80 |
+| 1985 | 16 | Rejected | < 2.22e-16 | 0.78 |
+
+# PCA, 1980 {.allowframebreaks}
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+require(psych)
+require(REdaS)
+
+datCOM <- readRDS("data/commodities/datCOM_qu.rds")
+datCOM <- subset(datCOM, select= c(Group.1, AluIndex, CopperIndex, GoldPrice, LeadIndex, NickelIndex, SilverPrice, SPIndex, SP.AgriIndex, SP.Agri.LiveIndex, SP.GoldIndex, SPIndustrialIndex,SP.LivestockIndex, ZincIndex))
+
+datCOM <- na.omit(datCOM)
+VSS.scree(datCOM[,2:14], main = "Commodities")
+```
+
+\begingroup\Tiny
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+pca.1980 <- principal(datCOM[,2:14], nfactors = 2)
+print(pca.1980, sort = TRUE, cut = 0.5, digits = 2)
+```
+
+\endgroup
+
+# Fin
+
+**Thank you for your time!**
+
+# References {.allowframebreaks}

@@ -1,5 +1,5 @@
 #Einlesen Gesamtdaten Commodities & Indices und Quarterly data
-datCOM <- readRDS("datCOM_qu.rds")
+datCOM <- readRDS("data/commodities/datCOM_qu.rds")
 
 #Daten Subsetten auf Daten vorhanden ab 1970. 
 #ab 70: Group.1, CopperIndex, GoldPrice, LeadIndex, SilverPrice, SPIndex, SP.AgriIndex, SP.Agri.LiveIndex, SP.LivestockIndex, TinIndex, ZincIndex, 
