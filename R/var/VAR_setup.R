@@ -102,24 +102,36 @@ bvarsv_irf <- function(bvar, impulse = 1, response = 1, title = "", ols) {
                            response.variable = response)
   
   pdat <- t(apply(irf$irf, 2, function(z) quantile(z, c(0.05, 0.25, 0.5, 0.75, 0.95))))
-  xax <- 1:20
-  matplot(x = xax, y = pdat, type = "n", ylab = "", xlab = "Horizon", 
-          bty = "n", xlim = c(1, 20), main = title)
-  polygon(c(xax, rev(xax)), c(pdat[, 5], rev(pdat[, 4])),
-          col = "grey60", border = NA)
-  polygon(c(xax, rev(xax)), c(pdat[, 4], rev(pdat[, 3])),
-          col = "grey30", border = NA)
-  polygon(c(xax, rev(xax)), c(pdat[, 3], rev(pdat[, 2])),
-          col = "grey30", border = NA)
-  polygon(c(xax, rev(xax)), c(pdat[, 2], rev(pdat[, 1])),
-          col = "grey60", border = NA)
-  lines(x = xax, y = pdat[, 3], type = "l", col = 1, lwd = 2.5)
-  abline(h = 0, lty = 2)
+  pdat <- data.frame("id" = 1:nrow(pdat), pdat)
+  names(pdat) <- c("id", "5P" ,"25P", "50P", "75P", "95P")
   
-  if(!missing(ols)) {
-    irf_ols <- irf(ols, n.ahead = 20)[[1]][[imp]][-1, resp]
-    lines(x = 1:20, y = ira.ols, lwd = 2, lty = 2, col = "gray")
-  }
+  ggplot(pdat, aes(x = id)) +
+    geom_ribbon(aes(ymin = `5P`, ymax = `95P`), fill = "grey60") +
+    geom_ribbon(aes(ymin = `25P`, ymax = `75P`), fill = "grey30") +
+    geom_line(aes(y = `50P`), col = "black", size = 1.5) +
+    scale_x_continuous(expand = c(0, 0), breaks = seq(2, 20, 4)) +
+    theme_light() +
+    xlab("horizon") +
+    ylab("") +
+    ggtitle(title)
+  # xax <- 1:20
+  # matplot(x = xax, y = pdat, type = "n", ylab = "", xlab = "Horizon", 
+  #         bty = "n", xlim = c(1, 20), main = title)
+  # polygon(c(xax, rev(xax)), c(pdat[, 5], rev(pdat[, 4])),
+  #         col = "grey60", border = NA)
+  # polygon(c(xax, rev(xax)), c(pdat[, 4], rev(pdat[, 3])),
+  #         col = "grey30", border = NA)
+  # polygon(c(xax, rev(xax)), c(pdat[, 3], rev(pdat[, 2])),
+  #         col = "grey30", border = NA)
+  # polygon(c(xax, rev(xax)), c(pdat[, 2], rev(pdat[, 1])),
+  #         col = "grey60", border = NA)
+  # lines(x = xax, y = pdat[, 3], type = "l", col = 1, lwd = 2.5)
+  # abline(h = 0, lty = 2)
+  # 
+  # if(!missing(ols)) {
+  #   irf_ols <- irf(ols, n.ahead = 20)[[1]][[imp]][-1, resp]
+  #   lines(x = 1:20, y = ira.ols, lwd = 2, lty = 2, col = "gray")
+  # }
 }
 data <- readRDS("data/bvars/ols_all.rds")
 bvars[[1]] <- readRDS("data/bvars/bvar_usa.rds")

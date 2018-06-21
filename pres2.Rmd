@@ -2,7 +2,7 @@
 title: "Commodity Prices and the Business Cycle in resource-dependent Economies"
 subtitle: "5741 – Money, Credit & Finance"
 author: "Casper Engelen, Matthias Hagen & Nikolas Kuschnig"
-date: "2018-06-21"
+date: "2018-06-22"
 header-includes:
   - \widowpenalties 1 5000
 output: 
@@ -44,7 +44,7 @@ Based on these findings @roch2017adjustment argues that domestic variables do no
 Further search for data:
 
 * Monetary Policy Rates [^1]
-    * Missing values filled with short-term Interbank rate[^2]
+    * Missing values filled with short-term interbank rate[^2]
 * Stock Indices[^3]
 * Unemployment[^4]
 * Money Supply[^5]
@@ -61,11 +61,11 @@ Further search for data:
 Work on data transformation:
 
 * Quarterly frequency
-    * Last Value
-    * Quarterly Mean
+    * Last value
+    * Quarterly mean
 * Achieving stationarity
     * Log-differences
-    * Hodrick-Prescott Filter
+    * Hodrick-Prescott filter
 * Testing
     * Augmented Dickey-Fuller Test
     * (P)ACF, etc.
