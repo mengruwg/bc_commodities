@@ -1,0 +1,8 @@
+---
+title: "Money, Credit & Finance"
+author: "Engelen, Hagen & Kuschnig"
+date: "21 Juni 2018"
+output: beamer_presentation
+---
+
+# Commodity Prices and the Business Cycle in resource-dependent Economies
