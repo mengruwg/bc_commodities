@@ -1,8 +1,157 @@
 ---
-title: "Money, Credit & Finance"
-author: "Engelen, Hagen & Kuschnig"
-date: "21 Juni 2018"
-output: beamer_presentation
+title: "Commodity Prices and the Business Cycle in resource-dependent Economies"
+subtitle: "5741 – Money, Credit & Finance"
+author: "Casper Engelen, Matthias Hagen & Nikolas Kuschnig"
+date: "2018-06-21"
+output: 
+  beamer_presentation:
+    theme: "metropolis"
+bibliography: pres2_bib.bib
+
 ---
 
-# Commodity Prices and the Business Cycle in resource-dependent Economies
+# Literature
+
+@gubler2013commodity evaluate the relative importance of commodity price shocks in the United States.
+
+* 9-dimensional SVAR
+* Identify commodity price via short-run restrictions
+    * Commodity prices only react to lagged impulses
+    * Based on @kilian2011energy
+
+
+# Literature
+
+@mallick2013commodity assess the transmission of monetary policy and the impact of commodity price fluctuations on BRICS economies.
+
+* Bayesian SVAR, SVAR & Panel VAR
+* BVAR ordering in three groups
+    * Monetary policy instrument
+    * Variables that react with a lag
+    * Variables that adjust contemporaneously
+
+# Literature
+
+@kilian2011energy propose a formal test of the hypothesis that energy prices, i.e. oil prices, are predetermined with respect to US macroeconomic aggregates. They find **no compelling evidence of feedback at daily or monthly horizons**.
+They conclude that short-term restrictions as identification strategy are thus justified.
+
+Based on these findings @roch2017adjustment argues that domestic variables do not affect ToT contemporaneously.
+
+# Data, Accumulation
+
+Further search for data:
+
+* Monetary Policy Rates [^1]
+    * Missing values filled with short-term Interbank rate[^2]
+* Stock Indices[^3]
+* Unemployment[^4]
+* Money Supply[^5]
+* Exchange Rates[^6]
+
+[^1]: National Central Banks, FRED
+[^2]: for Australia & Norway, OECD
+[^3]: Datastream
+[^4]: OECD, National Statistic Bureaus, Datastream
+[^5]: OECD, FRED, Datastream
+[^6]: IMF
+
+# Data, Transformation
+Work on data transformation:
+
+* Quarterly frequency
+    * Last Value
+    * Quarterly Mean
+* Achieving stationarity
+    * Log-differences
+    * Hodrick-Prescott Filter
+* Testing
+    * Augmented Dickey-Fuller Test
+    * (P)ACF, etc.
+
+# Data, Observations
+
+Residual standard deviations in a VAR for South Africa, that allows for time drift & and stochastic volatility, OLS as benchmark.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+require(vars)
+require(bvarsv)
+
+fit <- readRDS("data/bvars/bvar_zaf.rds")
+fit_ols <- VAR(y = readRDS("data/bvars/ols_all.rds")[[3]], lag = 3)
+
+### after Krüger, F. 2015
+
+matplot2 <- function(...) {
+  matplot(..., type = "l", lty = 1, lwd = 2, bty = "n", ylab = "residual sd")
+}
+stat_helper <- function(z) {
+  c(mean(z), quantile(z, c(0.16, 0.84)))[c(2, 1, 3)]
+}
+
+# x-axis
+xax <- seq(1984.5, 2018, 0.25)
+# grid
+grid <- seq(1985, 2015, 5)
+
+# colors
+col <- c("#E69F00", "#009E73", "#E69F00")
+col2 <- "black"
+
+# Residual variance from simpler benchmark model
+sd_residuals_ols <- apply(residuals(fit_ols), 2, sd)
+
+# Make plot
+par(mfrow = c(3, 1))
+
+# SD 1
+# Get posterior draws
+sd_1 <- parameter.draws(fit, type = "vcv", row = 1, col = 1)
+x1 <- t(apply(sqrt(sd_1), 2, stat_helper))
+# Plot
+matplot2(x = xax, y = x1, ylim = c(0, 5), col = col,
+         main = "SPGSCI", xlab = "")
+abline(h = sd_residuals_ols[1], col = col2, lwd = 1.4, lty = 2)
+abline(h = c(0, 2, 4), v = grid, lty = 3, lwd = 0.3, col = "gray")
+
+# SD 2
+# Get posterior draws
+sd_2 <- parameter.draws(fit, type = "vcv", row = 2, col = 2)
+x2 <- t(apply(sqrt(sd_2), 2, stat_helper))
+# Plot
+matplot2(x = xax, y = x2, ylim = c(0, 0.1), col = col,
+         main = "GDP", xlab = "")
+abline(h = sd_residuals_ols[2], col = col2, lwd = 1.4, lty = 2)
+abline(h = c(0, 0.04, 0.08), v = grid, lty = 3, lwd = 0.3, col = "gray")
+
+# SD 3
+# Get posterior draws
+sd_3 <- parameter.draws(fit, type = "vcv", row = 3, col = 3)
+x3 <- t(apply(sqrt(sd_3), 2, stat_helper))
+# Plot
+matplot2(x = xax, y = x3, ylim = c(0, 4), col = col,
+         main = "Monetary Policy Rate", xlab = "time")
+abline(h = sd_residuals_ols[3], col = col2, lwd = 1.4, lty = 2)
+abline(h = c(0, 2, 4), v = grid, lty = 3, lwd = 0.3, col = "gray")
+```
+
+# VAR, Order
+
+| Variables |
+| :---: |
+| Commodities |
+| Output |
+| Inflation |
+| Unemployment |
+| Trade |
+| Money Supply |
+| Monetary Policy Rate |
+| 10Y Government Bonds |
+| Equity Prices |
+
+# VAR, Modelling
+
+We have considered 
+
+# PCA
+
+# References
