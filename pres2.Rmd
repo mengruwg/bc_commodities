@@ -41,7 +41,7 @@ Based on these findings @roch2017adjustment argues that domestic variables do no
 
 # Data, Accumulation
 
-Further search for data:
+Further search for data
 
 * Monetary Policy Rates [^1]
     * Missing values filled with short-term interbank rate[^2]
@@ -58,7 +58,7 @@ Further search for data:
 [^6]: IMF
 
 # Data, Transformation
-Work on data transformation:
+Work on data transformation
 
 * Quarterly frequency
     * Last value
@@ -67,8 +67,6 @@ Work on data transformation:
     * Log-differences
     * Hodrick-Prescott filter
 * Testing
-    * Augmented Dickey-Fuller Test
-    * (P)ACF, etc.
 
 # Data, Observations
 
@@ -136,7 +134,7 @@ abline(h = sd_residuals_ols[3], col = col2, lwd = 1.4, lty = 2)
 abline(h = c(0, 2, 4), v = grid, lty = 3, lwd = 0.3, col = "gray")
 ```
 
-# VAR, Order
+# VAR
 
 | Variables |
 | :---: |
