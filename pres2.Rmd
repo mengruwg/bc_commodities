@@ -233,14 +233,14 @@ plot_grid(plot[[1]], plot[[2]], plot[[3]], nrow = 1)
 
 # PCA
 
-*Principal Componenent Analysis* is
+*Principal Componenent Analysis*
 
-* an orthogonal transformation,
-* that is used to reduce the amount of variables.
+* an orthogonal transformation
+* used to reduce the amount of variables.
 
 Whilst it is sensitive to scaling it can be useful for reducing dimensionality in VAR models.
 
-We use it for our array of commodity data (40+ timeseries).
+We use it for our array of commodity data.
 
 # PCA, Commodities
 
