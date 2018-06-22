@@ -4,8 +4,9 @@ Money, Credit & Finance paper dealing with business cycles in resource dependent
 
 # To-Do
 
-- vary transformations (HP, first diff, log...)
-- add commodities in different forms
+- more transformations
+- add commodities in different forms (wait for PCA)
+- stochastic volatility
 
 ## Data
 - GDP
