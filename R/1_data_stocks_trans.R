@@ -22,4 +22,4 @@ stock_indices <- stock_indices[-1, ]
 
 plot_stocks(stock_indices)
 
-saveRDS(stock_indices, "data/stocks_logdiff.rds")
+saveRDS(stock_indices, "data/stocks_transformed.rds")
