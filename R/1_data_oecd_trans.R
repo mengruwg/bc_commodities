@@ -23,13 +23,15 @@ unmelt_oecd <- function(x) {
   x <- x[-1, ]
 }
 
-stationarise_oecd <- function(x) {
-  x$Value <- log(x$Value)
+stationarise_oecd <- function(x, log = TRUE, diff = TRUE) {
+  if(log) x$Value <- log(x$Value)
   x <- dcast(x, TIME ~ LOCATION, value.var = "Value")
   
-  x[-1, 2:ncol(x)] <- apply(x[2:ncol(x)], 2, diff)
-  # drop first row
-  x <- x[-1, ]
+  if(diff) {
+    x[-1, 2:ncol(x)] <- apply(x[2:ncol(x)], 2, diff)
+    # drop first row
+    x <- x[-1, ]
+  }
   
   return(x)
 }
@@ -56,6 +58,7 @@ x[c(-1, -3)] <- apply(x[c(-1, -3)], 2, function(x) {
 x$CHL[which(!is.na(x$CHL))] <- hpfilter(na.omit(x$CHL), freq = 1600, type = "lambda")$cycle
 
 gdp <- x
+plot_stationary(gdp)
 
 ### inflation
 inflation <- readRDS("data/raw_data/oecd_inflation.rds")
@@ -63,10 +66,11 @@ inflation <- inflation[c("TIME", "LOCATION", "Value")]
 inflation$TIME <- as.yearqtr(inflation$TIME, format = "%Y-Q%q")
 # check data
 plot_data(inflation)
-inflation <- stationarise_oecd(inflation)
+inflation <- stationarise_oecd(inflation, log = TRUE)
 plot_stationary(inflation)
 
 # looks pretty bad for CHL, but we will only look at 1990 onwards for it
+# Log-differences look much nicer than just differences
 
 ### m3
 m3 <- readRDS("data/raw_data/oecd_m3.rds")
@@ -139,7 +143,7 @@ i3m <- unmelt_oecd(i3m)
 
 # We can't really calculate a yield spread from these two interest rates
 
-oecd_data <- list(gdp, inflation, i10y, i3m, trade_balance, m3)
-names(oecd_data) <- c("gdp", "infl", "i10y", "i3m", "trade", "m3")
+oecd_data <- list(gdp, inflation, i10y, i3m, imports, exports, trade_balance, m3)
+names(oecd_data) <- c("gdp", "infl", "i10y", "i3m", "import", "export", "trade", "m3")
 
-saveRDS(oecd_data, "data/oecd_logdiff.rds")
+saveRDS(oecd_data, "data/oecd_transformed.rds")

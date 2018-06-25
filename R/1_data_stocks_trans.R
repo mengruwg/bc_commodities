@@ -10,8 +10,6 @@ plot_stocks <- function(x) {
     geom_smooth(method = "lm")
 }
 
-
-
 stock_indices <- readRDS("data/raw_data/stock_indices.rds")
 stock_indices$TIME <- as.yearqtr(stock_indices$TIME, format = "Q%q %Y")
 

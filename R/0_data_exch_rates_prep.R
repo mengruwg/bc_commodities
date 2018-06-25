@@ -2,7 +2,7 @@ library(stringr)
 library(readr)
 
 #Data einlesen
-IMF_Data <- read_delim("data/IMF/IMF_Data.csv",";", escape_double = FALSE, 
+IMF_Data <- read_delim("data/imf/imf_data.csv",";", escape_double = FALSE, 
                        col_types = cols(`Euro   (EUR)` = col_double()),
                        locale = locale(decimal_mark = ",", grouping_mark = "."), 
                        trim_ws = TRUE)

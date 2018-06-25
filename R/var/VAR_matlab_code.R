@@ -53,7 +53,7 @@ irfvar <- function(A, B_inv, lag, horizon = 12) {
 
 plot_irf <- function(IRF) {
   var_count <- sqrt(nrow(IRF))
-  df <- apply(IRF, 1, cumsum)
+  df <- t(IRF)#apply(IRF, 1, cumsum)
   df <- data.frame(id = 0:(nrow(df) - 1), df)
   
   row_id <- seq(2, ncol(df), var_count)
@@ -81,11 +81,11 @@ plot_irf <- function(IRF) {
 # realgdp2 <- read.delim("C:/Users/admin/Desktop/realgdp2.txt", header=FALSE)
 # poil <- read.table("C:/Users/admin/Desktop/poil.txt", quote="\"", comment.char="")
 
-# infl = diff(ts(log(gdpdeflator2[56:nrow(gdpdeflator2),3])))*100;
-# drgdp = diff(ts(log(realgdp2[56:nrow(realgdp2),3])))*100;
-# poilm = log(poil[which(poil$V2 %in% c("3", "6", "9", "12")),3]);
-# drpoil = diff(ts(poilm))*100-infl;
-# data = cbind(drpoil, infl, drgdp)
+infl = diff(ts(log(gdpdeflator2[56:nrow(gdpdeflator2),3])))*100;
+rgdp = diff(ts(log(realgdp2[56:nrow(realgdp2),3])))*100;
+poilm = log(poil[which(poil$V2 %in% c("3", "6", "9", "12")),3]);
+drpoil = diff(ts(poilm))*100-infl;
+data = cbind(drpoil, infl, drgdp)
 
 # Works somehow
 
@@ -96,12 +96,14 @@ data <- data_usa[c("spgsci", "gdp", "infl", "m3", "mp_rate", "i10y", "equity")]
 
 data[c("gdp", "mp_rate", "i10y", "spgsci")] <- data[c("gdp", "mp_rate", "i10y", "spgsci")] / 100 # allowed?
 
-lag <- 2
+lag <- 4
 data <- as.matrix(data)
 ols <- olsvar(data, lag)
 B_inv <- t(chol(ols$SIGMA[1:ncol(data), 1:ncol(data)]))
-irf <- irfvar(ols$A, B_inv, lag, horizon = 12)
+irf <- irfvar(ols$A, B_inv, lag, horizon = 100)
 
 
 plots <- plot_irf(irf)
-plots[[1]]
+plots[[2]]
+
+#benchmark simms
