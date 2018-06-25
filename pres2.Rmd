@@ -1,15 +1,15 @@
 ---
 title: "Commodity Prices and the Business Cycle in resource-dependent Economies"
-subtitle: "5741 – Money, Credit & Finance"
 author: "Casper Engelen, Matthias Hagen & Nikolas Kuschnig"
-date: "2018-06-22"
-header-includes:
-  - \widowpenalties 1 5000
-output: 
+date: '2018-06-22'
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
   beamer_presentation:
-    theme: "metropolis"
+    theme: metropolis
+header-includes: \widowpenalties 1 5000
+subtitle: 5741 Ã¢â‚¬â€œ Money, Credit & Finance
 bibliography: pres2_bib.bib
-
 ---
 
 # Literature

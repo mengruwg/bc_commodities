@@ -157,7 +157,7 @@ for (irep in 1:ntot) {
     }
     
     irf.mat <- array(0, c(M * p, M * p, nhor))
-    irf.mat[, , 1] <- shock
+    irf.mat[1:M, 1:M, 1] <- shock
     for (ihorz in 2:nhor) {
       irf.mat[, , ihorz] <- irf.mat[, , ihorz - 1] %*% t(B.comp)
     }
@@ -173,10 +173,10 @@ IRF.high <- apply(IRF.store, c(2, 3, 4), quantile, 0.1, na.rm = TRUE)
 IRF.median <- apply(IRF.store, c(2, 3, 4), median, na.rm = TRUE)
 
 #Start plotting the IRFs w.r.t the different shocks
-par(mfrow = c(3, 3))
+par(mfrow = c(5, 5))
 
-for (ii in 1:3) {
-  for (jj in 1:3) {
+for (ii in 1:5) {
+  for (jj in 1:5) {
     ts.plot(
       cbind(IRF.low[ii, jj, ], IRF.high[ii, jj, ], IRF.median[ii, jj, ]),
       ylab = colnames(Y)[[ii]],
