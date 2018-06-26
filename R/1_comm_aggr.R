@@ -1,5 +1,5 @@
-library(REdaS)
-library(rlang)
+#library(REdaS)
+#library(rlang)
 library(lubridate)
 library(zoo)
 library(dplyr)
@@ -247,7 +247,7 @@ a <- merge(a, Zinc_Price, by = "Date", all = TRUE)
 
 a$Date <- dmy(a$Date)
 
-saveRDS(a, "comm_all.rds")
+saveRDS(a, "data/raw_data/comm_all.rds")
 
 custommean <- function(x) {
   mean(x, na.rm = TRUE)
@@ -258,10 +258,11 @@ custommean <- function(x) {
 b <- a
 b$Date_q <- as.yearqtr(b$Date)
 b <- aggregate(b[, 2:49], list(b$Date_q), custommean)
+names(b)[1] <- "Date"
 saveRDS(b, "data/raw_data/comm_mean_qu.rds")
 
 #futures
-futures_q <- subset(b, select = c(Group.1,
+futures_q <- subset(b, select = c(Date,
                                   Brent1yr,
                                   Brent2yr,
                                   Brent3yr,
@@ -273,7 +274,7 @@ futures_q <- subset(b, select = c(Group.1,
 saveRDS(futures_q, "data/raw_data/comm_mean_qu_futures.rds")
 
 #indices
-indices_q <- subset(b, select = c(Group.1, BBIndex, Prec.met.Index,
+indices_q <- subset(b, select = c(Date, BBIndex, Prec.met.Index,
                                   BBIndustrialIndex, BBEnergyIndex, SPIndustrialIndex,
                                   SPIndex, SP.prec.metIndex, SP.crude.oilIndex,
                                   SP.Nat.GasIndex, SP.AgriIndex, SP.Agri.LiveIndex,
