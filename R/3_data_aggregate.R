@@ -12,7 +12,10 @@ mp_rates <- readRDS("data/raw_data/mp_rates.rds")
 oecd_data <- readRDS("data/oecd_transformed.rds")
 # Stock indices
 stock_indices <- readRDS("data/stocks_transformed.rds")
-
+# Commodity PCA
+comm_pca <- readRDS("data/comm_pca_1980_transformed.rds")
+comm_pca <- as.data.frame(comm_pca)
+comm_pca$TIME <- as.yearqtr(comm_pca$TIME)
 
 # Australia ---------------------------------------------------------------
 
@@ -41,6 +44,9 @@ AUS$Value <- NULL
 # add the SPGSCI
 #AUS <- merge(AUS, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(AUS)[which(names(AUS) == "Value")] <- "spgsci"
+
+# add PCA
+AUS <- merge(AUS, comm_pca, by = "TIME", all.x = TRUE)
 
 # add stock indices
 AUS <- merge(AUS, stock_indices[c("TIME", "AUS")], by = "TIME", all.x = TRUE)
@@ -92,9 +98,12 @@ names(DEU)[which(names(DEU) == "Value")] <- "mp_rate"
 # carry over the last value if the rate wasn't adjusted
 DEU$mp_rate <- na.locf(DEU$mp_rate, na.rm = FALSE)
 
-# add the SPGSCI9
+# add the SPGSCI
 #DEU <- merge(DEU, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(DEU)[which(names(DEU) == "Value")] <- "spgsci"
+
+# add PCA
+DEU <- merge(DEU, comm_pca, by = "TIME", all.x = TRUE)
 
 # add stock indices
 DEU <- merge(DEU, stock_indices[c("TIME", "DEU")], by = "TIME", all.x = TRUE)
@@ -131,6 +140,9 @@ NOR$Value <- NULL
 #NOR <- merge(NOR, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(NOR)[which(names(NOR) == "Value")] <- "spgsci"
 
+# add PCA
+NOR <- merge(NOR, comm_pca, by = "TIME", all.x = TRUE)
+
 # add stock indices
 NOR <- merge(NOR, stock_indices[c("TIME", "NOR")], by = "TIME", all.x = TRUE)
 names(NOR)[which(names(NOR) == "NOR")] <- "equity"
@@ -158,6 +170,9 @@ USA$mp_rate <- na.locf(USA$mp_rate, na.rm = FALSE)
 #USA <- merge(USA, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(USA)[which(names(USA) == "Value")] <- "spgsci"
 
+# add PCA
+USA <- merge(USA, comm_pca, by = "TIME", all.x = TRUE)
+
 # add stock indices
 USA <- merge(USA, stock_indices[c("TIME", "USA")], by = "TIME", all.x = TRUE)
 names(USA)[which(names(USA) == "USA")] <- "equity"
@@ -184,6 +199,9 @@ ZAF$mp_rate <- na.locf(ZAF$mp_rate, na.rm = FALSE)
 # add the SPGSCI
 #ZAF <- merge(ZAF, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(ZAF)[which(names(ZAF) == "Value")] <- "spgsci"
+
+# add PCA
+ZAF <- merge(ZAF, comm_pca, by = "TIME", all.x = TRUE)
 
 # add stock indices
 ZAF <- merge(ZAF, stock_indices[c("TIME", "ZAF")], by = "TIME", all.x = TRUE)

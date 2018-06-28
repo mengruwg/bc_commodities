@@ -1,8 +1,10 @@
 data <- readRDS("data/country_data.RDS")
 
 plot_country <- function(x) {
-  # remove exch to circumvent 10 var limit
-  x$exch_rate <- NULL
+  # remove some to circumvent 10 var limit
+  x$import <- NULL
+  x$i3m <- NULL
+  x$TIME <- NULL
   plot(ts(x))
 }
 
@@ -14,15 +16,15 @@ plot_country <- function(x) {
 # })
 
 # Chile & Norway miss:
-#   i3m, i10y, exch_rate
+#   i10y
 # Others miss:
-#   i3m
+#   i3m, import, trade, exch_rate
 
 # Chile & Norway use i3m for missing mp_rate
 # Germany uses M2
 
 plot_country(data$AUS)
-data_aus <- data$AUS[c(-1, -5, -8, -11)]
+data_aus <- data$AUS[c("gdp", "infl", "i10y", "export", "m3", "mp_rate")]
 data_aus <- data_aus[complete.cases(data_aus), ]
 
 plot_country(data$CHL)

@@ -24,6 +24,7 @@ datCOM <- subset(datCOM, select = -c(
   PalladiumPrice,
   SP.Nat.GasIndex,
   IronPrice,
+  TinIndex,
   SteelIndex,
   SteelPrice))
 
@@ -36,15 +37,15 @@ datCOM$Date_q <- as.yearqtr(datCOM$Date)
 datCOM$Date_m <- as.yearmon(datCOM$Date)
 
 
-datCOM_means_q <- aggregate(datCOM[, 2:34], list(datCOM$Date_q), custommean)
-datCOM_means_m <- aggregate(datCOM[, 2:34], list(datCOM$Date_m), custommean)
+datCOM_means_q <- aggregate(datCOM[, 2:33], list(datCOM$Date_q), custommean)
+datCOM_means_m <- aggregate(datCOM[, 2:33], list(datCOM$Date_m), custommean)
 datCOM_means_m <- na.omit(datCOM_means_m)
 names(datCOM_means_m)[1] <- names(datCOM_means_q)[1] <- "Date"
 
-bart_spher(datCOM_means_m[, 2:34])
-KMOS(x = datCOM_means_m[, 2:34])
-VSS.scree(datCOM_means_m[, 2:34])
-pca.d <- principal(datCOM_means_m[, 2:34], nfactors = 3)
+bart_spher(datCOM_means_m[, 2:33])
+KMOS(x = datCOM_means_m[, 2:33])
+VSS.scree(datCOM_means_m[, 2:33])
+pca.d <- principal(datCOM_means_m[, 2:33], nfactors = 3)
 print(pca.d,
       sort = T,
       cut = 0.53,
@@ -68,10 +69,10 @@ datCOM_means_m2 <- subset(datCOM_means_m, select = -c(
   SP.AluminiumIndex,
   SP.GoldIndex))
 
-bart_spher(datCOM_means_m2[, 2:19])
-KMOS(x = datCOM_means_m2[, 2:19])
-VSS.scree(datCOM_means_m2[, 2:19])
-pca.d2 <- principal(datCOM_means_m2[, 2:19], nfactors = 3)
+bart_spher(datCOM_means_m2[, 2:18])
+KMOS(x = datCOM_means_m2[, 2:18])
+VSS.scree(datCOM_means_m2[, 2:18])
+pca.d2 <- principal(datCOM_means_m2[, 2:18], nfactors = 3)
 print(pca.d2,
       sort = T,
       cut = 0.53,
@@ -110,7 +111,6 @@ datCOM_means_m4 <- subset(datCOM_means_m, select = -c(
   ZincIndex,
   AluIndex,
   LeadIndex,
-  TinIndex,
   CopperIndex,
   NickelIndex,
   BBIndex,

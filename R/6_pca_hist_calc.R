@@ -6,10 +6,10 @@ source("R/5_pca_hist_setup.R")
 
 # Für Variablen ab 1970:
 dat1970 <- na.omit(dat1970)
-bart_spher(dat1970[, 2:11])
-KMOS(x = dat1970[, 2:11])
-VSS.scree(dat1970[, 2:11])
-pca.1970 <- principal(dat1970[, 2:11], nfactors = 2)
+bart_spher(dat1970[, 2:10])
+KMOS(x = dat1970[, 2:10])
+VSS.scree(dat1970[, 2:10])
+pca.1970 <- principal(dat1970[, 2:10], nfactors = 2)
 print(pca.1970,
       sort = T,
       cut = 0.53,
@@ -17,10 +17,10 @@ print(pca.1970,
 
 # Für Variablen ab 1970:
 dat1975 <- na.omit(dat1975)
-bart_spher(dat1975[, 2:12])
-KMOS(x = dat1975[, 2:12])
-VSS.scree(dat1975[, 2:12])
-pca.1975 <- principal(dat1975[, 2:12], nfactors = 2)
+bart_spher(dat1975[, 2:11])
+KMOS(x = dat1975[, 2:11])
+VSS.scree(dat1975[, 2:11])
+pca.1975 <- principal(dat1975[, 2:11], nfactors = 2)
 print(pca.1975,
       sort = T,
       cut = 0.53,
@@ -28,8 +28,6 @@ print(pca.1975,
 
 # Für ab 1980
 dat1980 <- na.omit(dat1980)
-# Tinindex entfernen damit PCA besser wird. Nicht auf Komponent geladen.
-dat1980 <- subset(dat1980, select = -c(TinIndex))
 bart_spher(dat1980[, 2:14])
 KMOS(x = dat1980[, 2:14])
 VSS.scree(dat1980[, 2:14])
@@ -41,12 +39,10 @@ print(pca.1980,
 
 # Für ab 1985
 dat1985 <- na.omit(dat1985)
-# TinIndex wieder entfernen, NickelIndex auch
-dat1985 <- subset(dat1985, select = -c(TinIndex, NickelIndex))
-bart_spher(dat1985[, 2:16])
-KMOS(x = dat1985[, 2:16])
-VSS.scree(dat1985[, 2:16])
-pca.1985 <- principal(dat1985[, 2:16], nfactors = 2)
+bart_spher(dat1985[, 2:17])
+KMOS(x = dat1985[, 2:17])
+VSS.scree(dat1985[, 2:17])
+pca.1985 <- principal(dat1985[, 2:17], nfactors = 2)
 print(pca.1985,
       sort = T,
       cut = 0.53,
