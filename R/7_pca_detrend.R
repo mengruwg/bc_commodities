@@ -51,6 +51,7 @@ stationarise_pca <- function(x) {
 
 pca.1980.comm.s <- stationarise_pca(pca.1980.comm)
 pca.1980.ind.met.s <- stationarise_pca(pca.1980.ind.met)
+
 plot_stationary(pca.1980.ind.met.s)
 plot_stationary(pca.1980.comm.s)
 

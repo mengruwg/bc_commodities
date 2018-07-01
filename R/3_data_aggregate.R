@@ -75,6 +75,9 @@ CHL$mp_rate <- na.locf(CHL$mp_rate, na.rm = FALSE)
 #CHL <- merge(CHL, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(CHL)[which(names(CHL) == "Value")] <- "spgsci"
 
+# add PCA
+CHL <- merge(CHL, comm_pca, by = "TIME", all.x = TRUE)
+
 # add stock indices
 CHL <- merge(CHL, stock_indices[c("TIME", "CHL")], by = "TIME", all.x = TRUE)
 names(CHL)[which(names(CHL) == "CHL")] <- "equity"

@@ -3,6 +3,10 @@ require(bvarsv)
 
 source("R/2_VAR_country_setup.R")
 
+data <- data_aus[c("comm", "industr", "gdp", "export", "infl", "m3", "mp_rate", "i10y")]
+data <- data_zaf[c("comm", "industr", "gdp", "export", "infl", "m3", "mp_rate", "i10y", "equity")]
+
+
 
 # prep --------------------------------------------------------------------
 

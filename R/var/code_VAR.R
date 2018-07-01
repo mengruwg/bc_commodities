@@ -1,5 +1,4 @@
 require(ggplot2)
-require(ggthemes)
 require(reshape2)
 
 lag_x <- function(X, lag)
@@ -17,7 +16,7 @@ lag_x <- function(X, lag)
 }
 
 sign_restr <- FALSE
-p <- lag
+p <- 1
 cons <- TRUE
 nhor <- 20
 
@@ -207,6 +206,7 @@ plot_irf <- function(irf, impulse = 1, var_names) {
   
   ggplot(x, aes(x = id, y = value, colour = variable)) +
     geom_line() +
+    geom_hline(yintercept = 0) +
     scale_color_manual(values = plot_col) +
     theme(legend.position = "none") +
     facet_grid(facet ~ ., scales = "free_y") +
@@ -214,11 +214,11 @@ plot_irf <- function(irf, impulse = 1, var_names) {
     scale_x_continuous(expand = c(0, 0), breaks = seq(0, dim(irf_md)[3], 2))
 }
 
-# plot_irf(IRF.store, 1, names(data))
-# plot_irf(IRF.store, 2, names(data))
-# plot_irf(IRF.store, 3, names(data))
-# plot_irf(IRF.store, 4, names(data))
-# plot_irf(IRF.store, 5, names(data))
-# plot_irf(IRF.store, 6, names(data))
-# plot_irf(IRF.store, 7, names(data))
+plot_irf(IRF.store, 1, names(data))
+plot_irf(IRF.store, 2, names(data))
+plot_irf(IRF.store, 3, names(data))
+plot_irf(IRF.store, 4, names(data))
+plot_irf(IRF.store, 5, names(data))
+plot_irf(IRF.store, 6, names(data))
+plot_irf(IRF.store, 7, names(data))
 
