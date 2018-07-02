@@ -16,7 +16,7 @@ lag_x <- function(X, lag)
 }
 
 sign_restr <- FALSE
-p <- 1
+p <- 2
 cons <- TRUE
 nhor <- 20
 
@@ -77,8 +77,8 @@ A.prior <-
 
 
 #Compute posterior variance
-XX <- rbind(X, X_)
-YY <- rbind(Y, Y_)
+XX <- X#rbind(X, X_)
+YY <- Y#rbind(Y, Y_)
 V.post <- solve(crossprod(XX))
 A.post <- V.post %*% crossprod(XX, YY)
 
@@ -167,8 +167,8 @@ for (irep in 1:ntot) {
   }
 }
 
-IRF.low <- apply(IRF.store, c(2, 3, 4), quantile, 0.9, na.rm = TRUE)
-IRF.high <- apply(IRF.store, c(2, 3, 4), quantile, 0.1, na.rm = TRUE)
+IRF.low <- apply(IRF.store, c(2, 3, 4), quantile, 0.84, na.rm = TRUE)
+IRF.high <- apply(IRF.store, c(2, 3, 4), quantile, 0.16, na.rm = TRUE)
 IRF.median <- apply(IRF.store, c(2, 3, 4), median, na.rm = TRUE)
 
 #Start plotting the IRFs w.r.t the different shocks
