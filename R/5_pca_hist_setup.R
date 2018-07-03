@@ -17,7 +17,6 @@ for(i in seq(2, ncol(data_comm), 9)) {
 }
 
 # TinIndex & Brent3yr with gaps
-
 dat1970 <- subset(data_comm, select = c(
   Date,
   CopperIndex,
@@ -77,4 +76,5 @@ dat1985 <- subset(data_comm, select = c(
   SP.prec.metIndex,
   SPIndustrialIndex,
   ZincIndex))
+
 
