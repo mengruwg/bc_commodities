@@ -1,7 +1,7 @@
+comm_all <- readRDS("data/raw_data/comm_all.rds")
 #Centering the Data.
-scale(comm_all[,2:49], scale=F)
 #Create extra columns with centered values
-comm_all[,50:97] <- scale(comm_all[,2:49], scale=F)
+comm_all[,50:97] <- scale(comm_all[,2:49], scale=T)
 #Get column names from original
 cols <- colnames(comm_all[2:49])
 #Subset only centered values.
