@@ -2,7 +2,7 @@ library(reshape2)
 
 source("R/4_var_setup.R")
 source("R/8_var_compute.R")
-source("R/9_plot_functions.R")
+source("R/8_plot_functions.R")
 
 data <- var(data_aus, 2)
 
