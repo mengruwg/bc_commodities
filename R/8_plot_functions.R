@@ -1,6 +1,7 @@
 library(ggplot2)
 library(reshape2)
 library(BMS)
+library(cowplot)
 
 plot_irf <- function(x, impulse, var_names) {
   quantiles <- apply(x, c(2, 3, 4), function(z) quantile(z, c(0.16, 0.25, 0.5, 0.75, 0.84)))
@@ -32,10 +33,70 @@ plot_irf <- function(x, impulse, var_names) {
     geom_hline(yintercept = 0) +
     ggtitle(paste(var_names[impulse], "impulse")) +
     theme(
+      text = element_text(colour = "black"),
+      panel.border = element_rect(colour = "black", fill = NA),
+      plot.margin = unit(c(0.5, 1, 0, 0), "lines"),
+      panel.background = element_blank(),
+      panel.grid.minor = element_line(colour = "lightgray", size = 0.5),
+      panel.grid.major = element_line(colour = "lightgray", size = 0.5),
+      legend.position = "none",
       axis.title = element_blank(), 
-      panel.background = element_rect(fill = NA),
-      panel.grid.minor = element_line(colour = "lightgray", size = 0.5))
+      axis.ticks = element_blank(),
+      axis.text.x = element_text(hjust = 0))
 }
+
+# requires scaling
+plot_irf_full <- function(x, var_names) {
+  quantiles <- apply(x, c(2, 3, 4), function(z) quantile(z, c(0.16, 0.25, 0.5, 0.75, 0.84), na.rm = TRUE))
+
+  dfs <- vector("list", dim(quantiles)[2] * dim(quantiles)[3])
+  k = 1
+  for(j in 1:dim(quantiles)[3]) {
+    for(i in 1:dim(quantiles)[2]) {
+      dfs[[k]] <- data.frame("id" = 1:dim(quantiles)[4], 
+                             "imp" = rep(j, dim(quantiles)[4]), 
+                             "resp" = rep(i, dim(quantiles)[4]), 
+                             "016" = c(t(quantiles[1, i, j, ])), 
+                             "025" = c(t(quantiles[2, i, j, ])), 
+                             "050" = c(t(quantiles[3, i, j, ])), 
+                             "075" = c(t(quantiles[4, i, j, ])), 
+                             "084" = c(t(quantiles[5, i, j, ])))
+      k = k + 1
+    }
+  }
+  
+  df <- do.call("rbind", dfs)
+  df$resp <- var_names[df$resp]
+  df$resp <- factor(df$resp, levels = var_names)
+
+  plots <- vector("list", dim(quantiles)[3])
+  for(i in 1:dim(quantiles)[3]) {
+    plots[[i]] <- ggplot(df[which(df$imp == i), ], aes(x = id, y = X050)) +
+      geom_ribbon(aes(ymin = X025, ymax = X050), fill = "grey30") +
+      geom_ribbon(aes(ymin = X016, ymax = X025), fill = "grey60") +
+      geom_ribbon(aes(ymin = X050, ymax = X075), fill = "grey30") +
+      geom_ribbon(aes(ymin = X075, ymax = X084), fill = "grey60") +
+      facet_grid(resp ~ ., scales = "free_y") +
+      geom_line(col = "black", size = 1) +
+      scale_x_continuous(expand = c(0, 0), breaks = seq(2, dim(quantiles)[4], dim(quantiles)[4] / 5)) +
+      geom_hline(yintercept = 0) +
+      ggtitle(paste(var_names[i], "impulse")) +
+      theme(
+        text = element_text(colour = "black"),
+        panel.border = element_rect(colour = "black", fill = NA),
+        plot.margin = unit(c(0.5, 1, 0, 0), "lines"),
+        panel.background = element_blank(),
+        panel.grid.minor = element_line(colour = "lightgray", size = 0.5),
+        panel.grid.major = element_line(colour = "lightgray", size = 0.5),
+        legend.position = "none",
+        axis.title = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(hjust = 0))
+  }
+  
+  plot_grid(plotlist = plots, ncol = dim(quantiles)[3])
+}
+
 
 pip_heatmap = function(x,
                        colours,
@@ -84,7 +145,7 @@ pip_heatmap = function(x,
     ggtitle("Posterior Inclusion Probabilities of the first lag") +
     coord_equal() +
     theme(
-      text = element_text(colour = "gray"),
+      text = element_text(colour = "black"),
       panel.border = element_rect(colour = "black", fill = NA),
       plot.margin = unit(c(0.5, 1, 0, 0), "lines"),
       panel.background = element_blank(),
