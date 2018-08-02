@@ -55,7 +55,7 @@ dat1980 <- subset(data_comm, select = c(
   SP.Agri.LiveIndex,
   SP.GoldIndex,
   SPIndustrialIndex,
-  SP.prec.metIndex,
+  #SP.prec.metIndex,
   SP.LivestockIndex,
   ZincIndex))
 

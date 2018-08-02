@@ -1,3 +1,5 @@
+library(zoo)
+
 comm_all <- readRDS("data/raw_data/comm_all.rds")
 #Centering the Data.
 #Create extra columns with centered values
