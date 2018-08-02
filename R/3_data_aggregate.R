@@ -14,6 +14,9 @@ oecd_data <- readRDS("data/oecd_transformed.rds")
 stock_indices <- readRDS("data/stocks_transformed.rds")
 # Commodity PCA
 comm_pca <- readRDS("data/comm_pca_1980_transformed.rds")
+# Commodities
+comm_cntry <- readRDS("data/raw_data/comm_country_stationary.rds")
+
 comm_pca <- as.data.frame(comm_pca)
 comm_pca$TIME <- as.yearqtr(comm_pca$TIME)
 
@@ -45,6 +48,9 @@ AUS$Value <- NULL
 #AUS <- merge(AUS, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(AUS)[which(names(AUS) == "Value")] <- "spgsci"
 
+# add Commodities
+AUS <- merge(AUS, comm_cntry[["AUS"]], by.x = "TIME", by.y = "Date")
+
 # add PCA
 AUS <- merge(AUS, comm_pca, by = "TIME", all.x = TRUE)
 
@@ -74,6 +80,9 @@ CHL$mp_rate <- na.locf(CHL$mp_rate, na.rm = FALSE)
 # add the SPGSCI
 #CHL <- merge(CHL, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(CHL)[which(names(CHL) == "Value")] <- "spgsci"
+
+# add Commodities
+CHL <- merge(CHL, comm_cntry[["CHL"]], by.x = "TIME", by.y = "Date")
 
 # add PCA
 CHL <- merge(CHL, comm_pca, by = "TIME", all.x = TRUE)
@@ -143,6 +152,9 @@ NOR$Value <- NULL
 #NOR <- merge(NOR, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(NOR)[which(names(NOR) == "Value")] <- "spgsci"
 
+# add Commodities
+NOR <- merge(NOR, comm_cntry[["NOR"]], by.x = "TIME", by.y = "Date")
+
 # add PCA
 NOR <- merge(NOR, comm_pca, by = "TIME", all.x = TRUE)
 
@@ -202,6 +214,9 @@ ZAF$mp_rate <- na.locf(ZAF$mp_rate, na.rm = FALSE)
 # add the SPGSCI
 #ZAF <- merge(ZAF, indices$spgsci, by = "TIME", all.x = TRUE)
 #names(ZAF)[which(names(ZAF) == "Value")] <- "spgsci"
+
+# add Commodities
+ZAF <- merge(ZAF, comm_cntry[["ZAF"]], by.x = "TIME", by.y = "Date")
 
 # add PCA
 ZAF <- merge(ZAF, comm_pca, by = "TIME", all.x = TRUE)
