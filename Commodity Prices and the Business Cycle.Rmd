@@ -1,0 +1,64 @@
+---
+title: "Commodity Prices and the Business Cycle in resource-dependent Countries"
+author: |
+  | Nikolas Kuschnig, Casper Engelen & Matthias Hagen
+  | WU Vienna, 5741 - Money, Credit & Finance
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: pdf_document
+documentclass: article
+toc: true
+---
+
+# Abstract
+
+
+\newpage
+
+# Introduction
+
+
+# Methodology
+
+## Data
+
+In pursuit of a scientifically sound foundation to build further analysis on, the initial concern of this paper was the definition and selection of *resource-dependent* countries. To avoid arbitrariness this was done in a data-based manner. For this, World Bank data on economic variables, resource rents and metal exports were utilised in the creation of four indicators of resource-dependence. These are the ratios of subsoil wealth to GDP, natural to total wealth, resource rents to GDP and metal exports to total exports. Together with constraints on size of the economy and ultimately data availability, these indicators were used to single out Australia, Chile, Norway and South Africa for our analysis. 
+The major source for economic data was the OECD, with timeseries of quarterly GDP, trade, consumer prices, interest rates and many more. While a wide array of data is readily available, length and frequency of timeseries and comparability between countries posed some challenges. E.g. vital timeseries on monetary policy rates were mostly gathered from national central banks and - in the case of Australia and Norway - had to be extended with short-term interbank rates. Data on unemployment rates, exchange rates and other economic indicators were dropped due to issues with heterogeneity and availability. 
+Market data was gathered via Bloomberg and Datastream and includes over forty commodity indices, individual resource prices and equity indices. However, the bulk of these timeseries only started in the 1990s, highlighting the dilemma of longevity versus abundance of data. For a more detailed overview of used data and its sources please consult Table 10.1 in the appendix.  
+To achieve stationarity the variables, apart from interest rates, were transformed. Three different approaches were up for consideration - namely first-differences, log-differences and a Hodrick-Prescott filter. Of these, log-differences seemed to perform the best, with the exception of GDP, which was filtered via an HP filter, and the principal components of the resource data, where first-differences were applied.
+
+## Vector Autoregressive Models
+
+## Variable Selection
+
+## Computation
+
+
+
+# Results
+
+## Variable Structure
+
+SSVS results, hypothesise, expectations
+
+## Impulse Responses
+- responses to technology shocks are the most pronounced and tend do follow similar paths
+- inflation and m3 shocks display pronounced results, but dissipate very quickly
+- reactions to monetary policy shocks dissipate and differ decidedly in their significance
+- commodity shocks differ between countries
+The impact of a a shock to the first principal component (labelled *comm*) impacted GDP negatively in all countries, but Chile. The impacts on export were negative for all resource-dependent economies, but positive on our control-group of Germany and the US. The monetary policy rate reacted in an expansionary matter in Australia and the US, but insignificantly or contractionarily for the other countries. In Germany and South Africa we can also observe a short, but significant jump in equity prices as a reaction to a shock on this principal component.
+...
+Another set of models with country-specific commodities instead of principal components was estimated for comparison. These include industrial metals, agriculture and livestock, gold, copper, energy and precious metals (see appendix, Table 11.1). The resulting impulse responses were largely comparable, but the impacts and responses of commodity variables turned out rather insignificant. Ultimately this appraoch yielded less convincing reults than one that simply used a single commodity price index. We interpret this as evidence for our approach of using principal components, as it combines the advantage of both approaches - the use of all available data, including rather country-specific timeseries, and the impactfulness of using few, but significant variables. 
+
+
+# Discussion
+
+
+\newpage
+
+# Literature
+
+
+\newpage
+
+# Appendix
+

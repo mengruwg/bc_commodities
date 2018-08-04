@@ -32,7 +32,7 @@ data_aus <- data$AUS[c("gdp", "infl", "i10y", "export", "m3", "mp_rate", "ind_me
 data_aus <- data_aus[complete.cases(data_aus), ]
 
 plot_country(data$CHL)
-data_chl <- data$CHL[c("gdp", "infl", "export", "m3", "mp_rate", "comm", "gold", "copper")]
+data_chl <- data$CHL[c("gdp", "infl", "export", "m3", "mp_rate", "gold", "copper", "equity")]
 data_chl <- data_chl[complete.cases(data_chl), ]
 
 plot_country(data$NOR)
