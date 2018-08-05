@@ -30,24 +30,24 @@ To achieve stationarity the variables, apart from interest rates, were transform
 
 ## Variable Selection
 
-## Computation
-
+- PCA
+- Explain SSVS
 
 
 # Results
 
 ## Variable Structure
 
-SSVS results, hypothesise, expectations
+- Principal Components
+Whilst it is important to keep the limitations in mind, the iteratively computed posterior inclusion probabilities provide an interesting overview of the data. In the case of Australia the commodities' principal components display very low inclusion probabilities, a picture that holds for most variables. The Chilean data however, appears to be rather interconnected. The commodity variables show decent inclusion in models explaining the monetary policy rate, the monetary aggregate, exports and even GDP. The Norwegian posterior inclusion probabilities are generally rather low, although the commodity components turn out relatively high, with high inclusion when explaining GDP and decent values for equity prices.
 
 ## Impulse Responses
-- responses to technology shocks are the most pronounced and tend do follow similar paths
-- inflation and m3 shocks display pronounced results, but dissipate very quickly
-- reactions to monetary policy shocks dissipate and differ decidedly in their significance
-- commodity shocks differ between countries
-The impact of a a shock to the first principal component (labelled *comm*) impacted GDP negatively in all countries, but Chile. The impacts on export were negative for all resource-dependent economies, but positive on our control-group of Germany and the US. The monetary policy rate reacted in an expansionary matter in Australia and the US, but insignificantly or contractionarily for the other countries. In Germany and South Africa we can also observe a short, but significant jump in equity prices as a reaction to a shock on this principal component.
-...
-Another set of models with country-specific commodities instead of principal components was estimated for comparison. These include industrial metals, agriculture and livestock, gold, copper, energy and precious metals (see appendix, Table 11.1). The resulting impulse responses were largely comparable, but the impacts and responses of commodity variables turned out rather insignificant. Ultimately this appraoch yielded less convincing reults than one that simply used a single commodity price index. We interpret this as evidence for our approach of using principal components, as it combines the advantage of both approaches - the use of all available data, including rather country-specific timeseries, and the impactfulness of using few, but significant variables. 
+
+The impulse responses, as pictured in Plots 3.1 and 3.2 (as well as Plots 17.1 - 17.6) show us the reaction of the model's variables in the rows to specific shocks, per column. The solid black line corresponds to the mean response; the dark- and light-gray areas cover 25-75 percent and 16-84 percent posterior confidence intervals among the 10,000 iterations.  
+In very loose terms the results do not hold any huge surprises. Technology shocks roughly turn out as expected, and do so rather significantly. In the cases of inflation and monetary aggregates the responses are pronounced, but dissipate very quickly. The picture is a similar one for monetary policy shocks, although the progression is harder to pinpoint due to broader confidence intervals.
+The impact of a a shock to the first principal component (labelled *comm*) impacted GDP negatively in all countries, but Chile. The impacts on export were negative for all resource-dependent economies, but positive on the control-group of Germany and the US. The monetary policy rate reacted in an expansionary matter in Australia and the US, but insignificantly or contractionarily for the other countries. In Germany and South Africa we can also observe a short, but significant jump in equity prices as a reaction to a shock on this first principal component. 
+The second principal component (labelled *industr*) did not affect GDP as consistently, although for it, the initial effect was positive for all, but Chile. In the control group the positive GDP response even increased for some time and only faded after a considerable amount of time. In the resource-dependent countries the responses peaked rather early and quickly tended to insignificance. Meanwhile, the responses of inflation, bond-yields, monetary aggregates and the monetary policy rates differed between countries, but turned out extremely similar in each country itself. Exports jumped significantly for about eight quarters in Australia and South Africa. Meanwhile they fell in Germany and the US, only to rebound to a small but significant increase after about four to six quarters. The shock only had a a significant, positive effect on equity prices in South Africa.  
+Another set of models with country-specific commodities instead of principal components was estimated for comparison. These include industrial metals, agriculture and livestock, gold, copper, energy and precious metals (see appendix, Table 11.1). The resulting impulse responses were largely comparable, but the impacts and responses of commodity variables turned out rather insignificant. Ultimately this appraoch yielded less convincing results than one that simply used a single commodity price index. We interpret this as evidence for our approach of using principal components, as it combines the advantage of both approaches - the use of all available data, including rather country-specific timeseries, and the impactfulness of using few, but significant variables. 
 
 
 # Discussion
