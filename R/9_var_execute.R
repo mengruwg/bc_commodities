@@ -32,4 +32,3 @@ for(country in data_countries) {
   
   i <- i + 1
 }
- 

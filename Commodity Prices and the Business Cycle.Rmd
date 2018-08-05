@@ -6,15 +6,19 @@ author: |
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output: pdf_document
 documentclass: article
+bibliography: comm.bibtex
 toc: true
 ---
 
 # Abstract
 
+**Abstract**
 
 \newpage
 
 # Introduction
+
+**Intro**
 
 
 # Methodology
@@ -28,22 +32,23 @@ To achieve stationarity the variables, apart from interest rates, were transform
 
 ## Vector Autoregressive Models
 
+**VAR**
+
 ## Variable Selection
 
-- PCA
-- Explain SSVS
-
+**PCA**  
+Furthermore, Bayesian Model Averaging is used as an additional way of assessing the model's structure. In short, *BMA* deals with the question of which independent variables to include in a model. Conceptionally this would be done by obtaining the results of every feasible model and averaging them [@koop2003bayesian, pp. 266]. In practice this swiftly becomes an impossible task, as the number of possible models may very well be enormous. However, since the models considered here do not exceed nine variables, we are able to enumerate the entire model space and do so via the R package *BMS* by @zeugner2015bayesian.
 
 # Results
 
 ## Variable Structure
 
-- Principal Components
-Whilst it is important to keep the limitations in mind, the iteratively computed posterior inclusion probabilities provide an interesting overview of the data. In the case of Australia the commodities' principal components display very low inclusion probabilities, a picture that holds for most variables. The Chilean data however, appears to be rather interconnected. The commodity variables show decent inclusion in models explaining the monetary policy rate, the monetary aggregate, exports and even GDP. The Norwegian posterior inclusion probabilities are generally rather low, although the commodity components turn out relatively high, with high inclusion when explaining GDP and decent values for equity prices.
+**PCA**  
+Whilst it is important to keep the limitations in mind, the iteratively computed posterior inclusion probabilities (Appendix, Plots 14.1-14.5) provide an interesting overview of the data. In the case of Australia the commodities' principal components display very low inclusion probabilities, a picture that holds for most variables. The Chilean data however, appears to be rather interconnected. The commodity variables show decent inclusion in models explaining the monetary policy rate, the monetary aggregate, exports and even GDP. The Norwegian posterior inclusion probabilities are generally rather low, although the commodity components turn out relatively high, with high inclusion when explaining GDP and decent values for equity prices. For South Africa the inclusion probabilities turn out slightly higher - the principal components show up when explaining the monetary policy rate, inflation and GDP. Based on these results we would expect higher impacts of the commodity components for Chile and South Africa, while one could presume the lower interplay of variables for Australia and Norway to lead to less convoluted models.
 
 ## Impulse Responses
 
-The impulse responses, as pictured in Plots 3.1 and 3.2 (as well as Plots 17.1 - 17.6) show us the reaction of the model's variables in the rows to specific shocks, per column. The solid black line corresponds to the mean response; the dark- and light-gray areas cover 25-75 percent and 16-84 percent posterior confidence intervals among the 10,000 iterations.  
+The impulse responses, as pictured in Plots 3.1 and 3.2 (as well as Appendix, Plots 17.1 - 17.6) show us the reaction of the model's variables in the rows to specific shocks, per column. The solid black line corresponds to the mean response; the dark- and light-gray areas cover 25-75 percent and 16-84 percent posterior confidence intervals among the 10,000 iterations.  
 In very loose terms the results do not hold any huge surprises. Technology shocks roughly turn out as expected, and do so rather significantly. In the cases of inflation and monetary aggregates the responses are pronounced, but dissipate very quickly. The picture is a similar one for monetary policy shocks, although the progression is harder to pinpoint due to broader confidence intervals.
 The impact of a a shock to the first principal component (labelled *comm*) impacted GDP negatively in all countries, but Chile. The impacts on export were negative for all resource-dependent economies, but positive on the control-group of Germany and the US. The monetary policy rate reacted in an expansionary matter in Australia and the US, but insignificantly or contractionarily for the other countries. In Germany and South Africa we can also observe a short, but significant jump in equity prices as a reaction to a shock on this first principal component. 
 The second principal component (labelled *industr*) did not affect GDP as consistently, although for it, the initial effect was positive for all, but Chile. In the control group the positive GDP response even increased for some time and only faded after a considerable amount of time. In the resource-dependent countries the responses peaked rather early and quickly tended to insignificance. Meanwhile, the responses of inflation, bond-yields, monetary aggregates and the monetary policy rates differed between countries, but turned out extremely similar in each country itself. Exports jumped significantly for about eight quarters in Australia and South Africa. Meanwhile they fell in Germany and the US, only to rebound to a small but significant increase after about four to six quarters. The shock only had a a significant, positive effect on equity prices in South Africa.  
@@ -52,13 +57,9 @@ Another set of models with country-specific commodities instead of principal com
 
 # Discussion
 
+**Discuss**
 
 \newpage
 
 # Literature
-
-
-\newpage
-
-# Appendix
 
