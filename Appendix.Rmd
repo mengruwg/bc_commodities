@@ -21,7 +21,9 @@ To establish which index data was to be used for our VAR-Model we have run multi
 | 1980 | 14 | Accepted | < 2.22e-16 | 0.80 |
 | 1985 | 16 | Rejected | < 2.22e-16 | 0.78 |
 
+
 Additionally, it must be mentioned that the PCA analysis was also done with other timeseries such as with the precious metals by S&P. However, this yielded insufficient results on the Bartlett’s Sphere test and KMO-criterion. Since some timeseries were not loaded to the components, the PCA was repeated, neglecting these timeseries (Maier & Hatzinger, 2014). Therefore an iterative approach was taken, reducing the amount of components and variables if components did not load variables or variables did not load into components as was described by Maier & Hatzinger (2014). This resulted in a PCA with the following timeseries:
+
 
 | Bloomberg | S&P | 
 | --- | --- |
@@ -36,12 +38,15 @@ Additionally, it must be mentioned that the PCA analysis was also done with othe
 ##  Test statistics
 The test-statistics for the dataset that was used in our final PCA can be seen below. 
 
+### Bartlett's test
 |Bartlett's Test of Sphericity |
 |Call: bart_spher(x = dat1980[ |
 |X2 = 4330.293                 |
 |df = 78                       |
 |p-value < 2.22e-16            |
 
+
+### KMO-Criterion
 |Kaiser-Meyer-Olkin Statistics        |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |NA        |
 |Call: KMOS(x = dat1980[, 2:14])      |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |NA        |
 |Measures of Sampling Adequacy (MSA): |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |NA        |
@@ -83,7 +88,7 @@ The process of running the PCA was done iteratively, removing components that we
 
 !(img/pip_heatmap_DEU.png)
 
-##Posterior Inclusion probability Heatmap Norway
+##  Posterior Inclusion probability Heatmap Norway
 
 !(img/pip_heatmap_NOR.png)
 
