@@ -6,11 +6,6 @@ author: |
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 output: pdf_document
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 #PCA
 **PCA**
 To establish which index data was to be used for our VAR-Model we have run multiple PCA’s with different data sets. As can be seen in the table below, the KMO-Criterion of the datasets with different starting dates were not ideal for PCA. 
