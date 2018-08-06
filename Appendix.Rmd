@@ -21,7 +21,9 @@ To establish which index data was to be used for our VAR-Model we have run multi
 | 1980 | 14 | Accepted | < 2.22e-16 | 0.80 |
 | 1985 | 16 | Rejected | < 2.22e-16 | 0.78 |
 
+
 Additionally, it must be mentioned that the PCA analysis was also done with other timeseries such as with the precious metals by S&P. However, this yielded insufficient results on the Bartlett’s Sphere test and KMO-criterion. Since some timeseries were not loaded to the components, the PCA was repeated, neglecting these timeseries (Maier & Hatzinger, 2014). Therefore an iterative approach was taken, reducing the amount of components and variables if components did not load variables or variables did not load into components as was described by Maier & Hatzinger (2014). This resulted in a PCA with the following timeseries:
+
 
 | Bloomberg | S&P | 
 | --- | --- |
