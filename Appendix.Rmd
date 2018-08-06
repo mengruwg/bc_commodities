@@ -7,9 +7,10 @@ author: |
 output:  pdf_document
 ---
 
-#PCA
+# PCA  
 
 **PCA**
+
 To establish which index data was to be used for our VAR-Model we have run multiple PCA’s with different data sets. As can be seen in the table below, the KMO-Criterion of the datasets with different starting dates were not ideal for PCA. 
 
 ## PCA Results
@@ -30,7 +31,7 @@ Additionally, it must be mentioned that the PCA analysis was also done with othe
 | Silver Price | S&P Livestock Index |
 | Zinc Index | |
 
-##Test statistics
+##  Test statistics
 The test-statistics for the dataset that was used in our final PCA can be seen below. 
 
 |Bartlett's Test of Sphericity |
@@ -46,11 +47,11 @@ The test-statistics for the dataset that was used in our final PCA can be seen b
 |0.9060680                            |0.5720174   |0.8950907 |0.7794712 |0.7496926   |0.8713319   |0.8778559 |0.7029208    |0.7286195         |0.8670121    |0.8728420         |0.6927517         |0.7095550 |
 |KMO-Criterion: 0.8028081             |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |NA        |
 
-##Amount of Components
+##  Amount of Components
 !(img/Screeplot.png)
 The screeplot above reveals that two components have an eigenvalue higher than 1. Which is depicted by the horizontal line in the figure. This has given a strong indication that the optimal amount of components in the PCA is two.
 
-##Component Eigenvalues
+##  Component Eigenvalues
 As can be seen in the table below, the principal components that can be identified have an eigenvalue of 7.79 and 2.68 respectively. This indicates that both components can be used going forward, as both are well above the cut-off-value. Additionally, we can see that component 1 “explains” 60 percent of the sample variability, whereas component 2 manages to capture 21 percent of the variance. Cumulatively these components cover 81 percent of the total variance in the data set. This means that 81 percent of the information in the original data set is conserved when using these components.
 The process of running the PCA was done iteratively, removing components that were not loading variables and variables that did not load to components with each iteration. Ending up with the Factor loadings that can be seen in the chapter results.
 |Component:            |  PC1|  PC2|
@@ -63,17 +64,17 @@ The process of running the PCA was done iteratively, removing components that we
 
 \newpage
 
-#Heatmaps
+#  Heatmaps
 
-##Posterior Inclusion probability Heatmap Australia
+##  Posterior Inclusion probability Heatmap Australia
 
 !(img/pip_heatmap_AUS.png)
 
-##Posterior Inclusion probability Heatmap Chile
+##  Posterior Inclusion probability Heatmap Chile
 
 !(img/pip_heatmap_CHL.png)
 
-##Posterior Inclusion probability Heatmap Germany
+##  Posterior Inclusion probability Heatmap Germany
 
 !(img/pip_heatmap_DEU.png)
 
@@ -81,10 +82,10 @@ The process of running the PCA was done iteratively, removing components that we
 
 !(img/pip_heatmap_NOR.png)
 
-##Posterior Inclusion probability Heatmap United States
+##  Posterior Inclusion probability Heatmap United States
 
 !(img/pip_heatmap_USA.png)
 
-##Posterior Inclusion probability Heatmap South Africa
+##  Posterior Inclusion probability Heatmap South Africa
 
 !(img/pip_heatmap_ZAF.png)
