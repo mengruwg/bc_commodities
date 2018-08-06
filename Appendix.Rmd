@@ -58,7 +58,7 @@ The test-statistics for the dataset that was used in our final PCA can be seen b
 
 ##  Amount of Components
 
-!(img/Screeplot.png)
+![](img/Screeplot.png)
 
 The screeplot above reveals that two components have an eigenvalue higher than 1. Which is depicted by the horizontal line in the figure. This has given a strong indication that the optimal amount of components in the PCA is two.
 
@@ -80,24 +80,24 @@ The process of running the PCA was done iteratively, removing components that we
 
 ##  Posterior Inclusion probability Heatmap Australia
 
-!(img/pip_heatmap_AUS.png)
+![](img/pip_heatmap_AUS.png)
 
 ##  Posterior Inclusion probability Heatmap Chile
 
-!(img/pip_heatmap_CHL.png)
+![](img/pip_heatmap_CHL.png)
 
 ##  Posterior Inclusion probability Heatmap Germany
 
-!(img/pip_heatmap_DEU.png)
+![](img/pip_heatmap_DEU.png)
 
 ##  Posterior Inclusion probability Heatmap Norway
 
-!(img/pip_heatmap_NOR.png)
+![](img/pip_heatmap_NOR.png)
 
 ##  Posterior Inclusion probability Heatmap United States
 
-!(img/pip_heatmap_USA.png)
+![](img/pip_heatmap_USA.png)
 
 ##  Posterior Inclusion probability Heatmap South Africa
 
-!(img/pip_heatmap_ZAF.png)
+![](img/pip_heatmap_ZAF.png)
