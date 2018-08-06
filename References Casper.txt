@@ -1,0 +1,64 @@
+@article{abdi2010principal,
+  title={Principal component analysis},
+  author={Abdi, Herv{\'e} and Williams, Lynne J},
+  journal={Wiley interdisciplinary reviews: computational statistics},
+  volume={2},
+  number={4},
+  pages={433--459},
+  year={2010},
+  publisher={Wiley Online Library}
+}
+
+
+@article{favero2005principal,
+  title={Principal components at work: the empirical analysis of monetary policy with large data sets},
+  author={Favero, Carlo A and Marcellino, Massimiliano and Neglia, Francesca},
+  journal={Journal of Applied Econometrics},
+  volume={20},
+  number={5},
+  pages={603--620},
+  year={2005},
+  publisher={Wiley Online Library}
+}
+
+@incollection{jolliffe2011principal,
+  title={Principal component analysis},
+  author={Jolliffe, Ian},
+  booktitle={International encyclopedia of statistical science},
+  pages={1094--1096},
+  year={2011},
+  publisher={Springer}
+}
+
+@article{kaiser1961note,
+  title={A note on Guttman's lower bound for the number of common factors 1},
+  author={Kaiser, Henry F},
+  journal={British Journal of Statistical Psychology},
+  volume={14},
+  number={1},
+  pages={1--2},
+  year={1961},
+  publisher={Wiley Online Library}
+}
+
+@article{stock2002macroeconomic,
+  title={Macroeconomic forecasting using diffusion indexes},
+  author={Stock, James H and Watson, Mark W},
+  journal={Journal of Business \& Economic Statistics},
+  volume={20},
+  number={2},
+  pages={147--162},
+  year={2002},
+  publisher={Taylor \& Francis}
+}
+
+@article{stock2002forecasting,
+  title={Forecasting using principal components from a large number of predictors},
+  author={Stock, James H and Watson, Mark W},
+  journal={Journal of the American statistical association},
+  volume={97},
+  number={460},
+  pages={1167--1179},
+  year={2002},
+  publisher={Taylor \& Francis}
+}

@@ -48,7 +48,6 @@ The test-statistics for the dataset that was used in our final PCA can be seen b
 |0.9060680                            |0.5720174   |0.8950907 |0.7794712 |0.7496926   |0.8713319   |0.8778559 |0.7029208    |0.7286195         |0.8670121    |0.8728420         |0.6927517         |0.7095550 |
 |KMO-Criterion: 0.8028081             |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |NA        |
 ##Amount of Components
-!(img/Screeplot.png)
 The screeplot above reveals that two components have an eigenvalue higher than 1. Which is depicted by the horizontal line in the figure. This has given a strong indication that the optimal amount of components in the PCA is two.
 
 ##Component Eigenvalues
@@ -65,7 +64,3 @@ The process of running the PCA was done iteratively, removing components that we
 \newpage
 
 #Heatmaps
-
-
-
-
