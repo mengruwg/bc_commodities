@@ -3,12 +3,15 @@ title: "Appendix"
 author: |
   | Nikolas Kuschnig, Casper Engelen & Matthias Hagen
   | WU Vienna, 5741 - Money, Credit & Finance
-date: '`r format(Sys.time(), "%d %B, %Y")`'
-output: pdf_document
+  date: "`r format(Sys.time(), "%d %B, %Y")`"
+output:  pdf_document
 ---
+
 #PCA
+
 **PCA**
 To establish which index data was to be used for our VAR-Model we have run multiple PCA’s with different data sets. As can be seen in the table below, the KMO-Criterion of the datasets with different starting dates were not ideal for PCA. 
+
 ## PCA Results
 | Start | # of Variables | Status | Bartlett's test p | KMO Criterion |
 | --- | --- | --- | --- | --- |
@@ -42,7 +45,9 @@ The test-statistics for the dataset that was used in our final PCA can be seen b
 |AluIndex                             |CopperIndex |GoldPrice |LeadIndex |NickelIndex |SilverPrice |SPIndex   |SP.AgriIndex |SP.Agri.LiveIndex |SP.GoldIndex |SPIndustrialIndex |SP.LivestockIndex |ZincIndex |
 |0.9060680                            |0.5720174   |0.8950907 |0.7794712 |0.7496926   |0.8713319   |0.8778559 |0.7029208    |0.7286195         |0.8670121    |0.8728420         |0.6927517         |0.7095550 |
 |KMO-Criterion: 0.8028081             |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |NA        |
+
 ##Amount of Components
+!(img/Screeplot.png)
 The screeplot above reveals that two components have an eigenvalue higher than 1. Which is depicted by the horizontal line in the figure. This has given a strong indication that the optimal amount of components in the PCA is two.
 
 ##Component Eigenvalues
@@ -59,3 +64,27 @@ The process of running the PCA was done iteratively, removing components that we
 \newpage
 
 #Heatmaps
+
+##Posterior Inclusion probability Heatmap Australia
+
+!(img/pip_heatmap_AUS.png)
+
+##Posterior Inclusion probability Heatmap Chile
+
+!(img/pip_heatmap_CHL.png)
+
+##Posterior Inclusion probability Heatmap Germany
+
+!(img/pip_heatmap_DEU.png)
+
+##Posterior Inclusion probability Heatmap Norway
+
+!(img/pip_heatmap_NOR.png)
+
+##Posterior Inclusion probability Heatmap United States
+
+!(img/pip_heatmap_USA.png)
+
+##Posterior Inclusion probability Heatmap South Africa
+
+!(img/pip_heatmap_ZAF.png)
