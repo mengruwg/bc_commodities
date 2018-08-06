@@ -28,10 +28,10 @@ print(pca.1975,
 
 # Für ab 1980
 dat1980 <- na.omit(dat1980)
-bart_spher(dat1980[, 2:14])
-KMOS(x = dat1980[, 2:14])
-VSS.scree(dat1980[, 2:14])
-pca.1980 <- principal(dat1980[, 2:14], nfactors = 2)
+bart_spher(dat1980[, 2:15])
+KMOS(x = dat1980[, 2:15])
+VSS.scree(dat1980[, 2:15])
+pca.1980 <- principal(dat1980[, 2:15], nfactors = 2)
 print(pca.1980,
       sort = T,
       cut = 0.53,
