@@ -40,6 +40,7 @@ The test-statistics for the dataset that was used in our final PCA can be seen b
 
 ### Bartlett's test
 | Bartlett's Test of Sphericity |
+| --- |
 | Call: bart_spher(x = dat1980[,2:14]) |
 | X2 = 4330.293                 |
 | df = 78                       |
@@ -48,6 +49,7 @@ The test-statistics for the dataset that was used in our final PCA can be seen b
 
 ### KMO-Criterion
 |Kaiser-Meyer-Olkin Statistics| NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
+
 |Call: KMOS(x = dat1980[, 2:14])| NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
 |Measures of Sampling Adequacy (MSA): | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
 |AluIndex | CopperIndex | GoldPrice | LeadIndex | NickelIndex | SilverPrice |SPIndex | SP.AgriIndex |SP.Agri.LiveIndex |SP.GoldIndex |SPIndustrialIndex |SP.LivestockIndex |ZincIndex |
