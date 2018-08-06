@@ -40,7 +40,7 @@ The test-statistics for the dataset that was used in our final PCA can be seen b
 
 ### Bartlett's test
 |Bartlett's Test of Sphericity |
-|Call: bart_spher(x = dat1980[ |
+|Call: bart_spher(x = dat1980[,2:14 |
 |X2 = 4330.293                 |
 |df = 78                       |
 |p-value < 2.22e-16            |
