@@ -1,0 +1,6 @@
+Kaiser-Meyer-Olkin Statistics;;;;;;;;;;;;,
+Call: KMOS(x = dat1980[, 2:14]);;;;;;;;;;;;
+Measures of Sampling Adequacy (MSA):;;;;;;;;;;;;,
+AluIndex;CopperIndex;GoldPrice;LeadIndex;NickelIndex;SilverPrice;SPIndex;SP.AgriIndex;SP.Agri.LiveIndex;SP.GoldIndex;SPIndustrialIndex;SP.LivestockIndex;ZincIndex,
+0.9060680;0.5720174;0.8950907;0.7794712;0.7496926;0.8713319;0.8778559;0.7029208;0.7286195;0.8670121;0.8728420;0.6927517;0.7095550,
+KMO-Criterion: 0.8028081;;;;;;;;;;;;,

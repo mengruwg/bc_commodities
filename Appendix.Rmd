@@ -1,0 +1,104 @@
+---
+title: "Appendix"
+author: |
+  | Nikolas Kuschnig, Casper Engelen & Matthias Hagen
+  | WU Vienna, 5741 - Money, Credit & Finance
+  date: "`r format(Sys.time(), "%d %B, %Y")`"
+output:  pdf_document
+---
+
+# PCA  
+
+**PCA**
+
+To establish which index data was to be used for our VAR-Model we have run multiple PCA’s with different data sets. As can be seen in the table below, the KMO-Criterion of the datasets with different starting dates were not ideal for PCA. 
+
+## PCA Results
+| Start | # of Variables | Status | Bartlett's test p | KMO Criterion |
+| --- | --- | --- | --- | --- |
+| 1970 | 11 | Rejected | < 2.22e-16 | 0.77 |
+| 1975 | 12 | Rejected | < 2.22e-16 | 0.75 |
+| 1980 | 14 | Accepted | < 2.22e-16 | 0.80 |
+| 1985 | 16 | Rejected | < 2.22e-16 | 0.78 |
+
+
+Additionally, it must be mentioned that the PCA analysis was also done with other timeseries such as with the precious metals by S&P. However, this yielded insufficient results on the Bartlett’s Sphere test and KMO-criterion. Since some timeseries were not loaded to the components, the PCA was repeated, neglecting these timeseries (Maier & Hatzinger, 2014). Therefore an iterative approach was taken, reducing the amount of components and variables if components did not load variables or variables did not load into components as was described by Maier & Hatzinger (2014). This resulted in a PCA with the following timeseries:
+
+
+| Bloomberg | S&P | 
+| --- | --- |
+| Aluminium Index | Gold Index |
+| Copper Index | S&P Commodities Index |
+| Gold Price | S&P Agriculture Index |
+| Lead Index | S&P Agriculture and Livestock Index |
+| Nickel Index | S&P Industrial Index |
+| Silver Price | S&P Livestock Index |
+| Zinc Index | |
+
+##  Test statistics
+The test-statistics for the dataset that was used in our final PCA can be seen below. 
+
+### Bartlett's test
+| Bartlett's Test of Sphericity |
+| --- |
+| Call: bart_spher(x = dat1980[,2:14]) |
+| X2 = 4330.293                 |
+| df = 78                       |
+| p-value < 2.22e-16            |
+
+
+### KMO-Criterion
+
+|Kaiser-Meyer-Olkin Statistics        |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |,          |
+|:------------------------------------|:-----------|:---------|:---------|:-----------|:-----------|:---------|:------------|:-----------------|:------------|:-----------------|:-----------------|:----------|
+|Call: KMOS(x = dat1980[, 2:14])      |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |NA         |
+|Measures of Sampling Adequacy (MSA): |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |,          |
+|AluIndex                             |CopperIndex |GoldPrice |LeadIndex |NickelIndex |SilverPrice |SPIndex   |SP.AgriIndex |SP.Agri.LiveIndex |SP.GoldIndex |SPIndustrialIndex |SP.LivestockIndex |ZincIndex, |
+|0.9060680                            |0.5720174   |0.8950907 |0.7794712 |0.7496926   |0.8713319   |0.8778559 |0.7029208    |0.7286195         |0.8670121    |0.8728420         |0.6927517         |0.7095550, |
+|KMO-Criterion: 0.8028081             |NA          |NA        |NA        |NA          |NA          |NA        |NA           |NA                |NA           |NA                |NA                |,          |
+
+##  Amount of Components
+
+![](img/Screeplot.png)
+
+The screeplot above reveals that two components have an eigenvalue higher than 1. Which is depicted by the horizontal line in the figure. This has given a strong indication that the optimal amount of components in the PCA is two.
+
+##  Component Eigenvalues
+As can be seen in the table below, the principal components that can be identified have an eigenvalue of 7.79 and 2.68 respectively. This indicates that both components can be used going forward, as both are well above the cut-off-value. Additionally, we can see that component 1 “explains” 60 percent of the sample variability, whereas component 2 manages to capture 21 percent of the variance. Cumulatively these components cover 81 percent of the total variance in the data set. This means that 81 percent of the information in the original data set is conserved when using these components.
+The process of running the PCA was done iteratively, removing components that were not loading variables and variables that did not load to components with each iteration. Ending up with the Factor loadings that can be seen in the chapter results.
+
+|Component:            |  PC1|  PC2|
+|:---------------------|----:|----:|
+|SS loadings           | 7.79| 2.68|
+|Proportion Var        | 0.60| 0.21|
+|Cumulative Var        | 0.60| 0.81|
+|Proportion Explained  | 0.74| 0.26|
+|Cumulative Proportion | 0.74| 1.00|
+
+\newpage
+
+#  Heatmaps
+
+##  Posterior Inclusion probability Heatmap Australia
+
+![](img/pip_heatmap_AUS.png)
+
+##  Posterior Inclusion probability Heatmap Chile
+
+![](img/pip_heatmap_CHL.png)
+
+##  Posterior Inclusion probability Heatmap Germany
+
+![](img/pip_heatmap_DEU.png)
+
+##  Posterior Inclusion probability Heatmap Norway
+
+![](img/pip_heatmap_NOR.png)
+
+##  Posterior Inclusion probability Heatmap United States
+
+![](img/pip_heatmap_USA.png)
+
+##  Posterior Inclusion probability Heatmap South Africa
+
+![](img/pip_heatmap_ZAF.png)

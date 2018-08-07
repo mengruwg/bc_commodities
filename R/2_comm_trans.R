@@ -1,3 +1,4 @@
+library(lubridate)
 library(zoo)
 
 comm_all <- readRDS("data/raw_data/comm_all.rds")
@@ -22,6 +23,7 @@ custommean <- function(x) {
 
 b <- comm_centered
 b$Date_q <- as.yearqtr(b$Date)
+
 b <- aggregate(b[, 2:49], list(b$Date_q), custommean)
 names(b)[1] <- "Date"
 saveRDS(b, "data/raw_data/comm_mean_qu.rds")
