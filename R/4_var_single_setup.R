@@ -28,27 +28,27 @@ plot_country <- function(x) {
 # Germany uses M2
 
 plot_country(data$AUS)
-data_aus <- data$AUS[c("gdp", "infl", "i10y", "export", "m3", "mp_rate", "ind_met", "agr_liv")]
+data_aus <- data$AUS[c("ind_met", "agr_liv", "gdp", "infl", "i10y", "export", "m3", "mp_rate")]
 data_aus <- data_aus[complete.cases(data_aus), ]
 
 plot_country(data$CHL)
-data_chl <- data$CHL[c("gdp", "infl", "export", "m3", "mp_rate", "gold", "copper", "equity")]
+data_chl <- data$CHL[c("copper", "gold", "gdp", "infl", "export", "m3", "mp_rate", "equity")]
 data_chl <- data_chl[complete.cases(data_chl), ]
 
 plot_country(data$NOR)
-data_nor <- data$NOR[c("gdp", "infl", "export", "m3", "mp_rate", "energy", "equity")]
+data_nor <- data$NOR[c("energy", "gdp", "infl", "export", "m3", "mp_rate", "equity")]
 data_nor <- data_nor[complete.cases(data_nor), ]
 
 plot_country(data$ZAF)
-data_zaf <- data$ZAF[c("gdp", "infl", "i10y", "export", "m3", "mp_rate", "prec_met", "equity")]
+data_zaf <- data$ZAF[c("prec_met", "gdp", "infl", "i10y", "export", "m3", "mp_rate", "equity")]
 data_zaf <- data_zaf[complete.cases(data_zaf), ]
 
 plot_country(data$DEU)
-data_deu <- data$DEU[c("gdp", "infl", "i10y", "export", "m3", "mp_rate", "comm", "industr", "equity")]
+data_deu <- data$DEU[c("comm", "industr", "gdp", "infl", "i10y", "export", "m3", "mp_rate", "equity")]
 data_deu <- data_deu[complete.cases(data_deu), ]
 
 plot_country(data$USA)
-data_usa <- data$USA[c("gdp", "infl", "i10y", "export", "m3", "mp_rate", "comm", "industr", "equity")]
+data_usa <- data$USA[c("comm", "industr", "gdp", "infl", "i10y", "export", "m3", "mp_rate", "equity")]
 data_usa <- data_usa[complete.cases(data_usa), ]
 
 rm(data, plot_country)
