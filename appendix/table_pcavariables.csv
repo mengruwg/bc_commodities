@@ -1,0 +1,14 @@
+﻿Commodity Prices and Indices;Identifier;Source
+Aluminium Index;NLSAH Index;Bloomberg
+Copper Index;NLSCA Index;Bloomberg
+Gold Price;XAG Curncy;Bloomberg
+Lead Index;NLSPB Index;Bloomberg
+Nickel Index;NLSNI Index;Bloomberg
+Silver Price;XAU Curncy;Bloomberg
+Zinc Index;NLSZS Index;Bloomberg
+S&P Gold Index;SPGSGC Index;Bloomberg
+S&P Commodity Index;SPGSCI Index;Bloomberg
+S&P Agriculture Index;SPGSAG Index;Bloomberg
+S&P Agriculture and Livestock Index;SPGSAL Index;Bloomberg
+S&P Livestock Index;SPGSLV Index;Bloomberg
+S&P Industrial Metals Index;SPGSIN Index;Bloomberg

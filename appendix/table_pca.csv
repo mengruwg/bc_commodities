@@ -1,0 +1,5 @@
+﻿Start;# of Variables;Status;Bartlett's p;KMO Criterion
+1970;11;Rejected;< 2.22e-16;0.77
+1975;12;Rejected;< 2.22e-16;0.75
+1980;14;Accepted;< 2.22e-16;0.80
+1985;16;Rejected;< 2.22e-16;0.78

@@ -3,7 +3,10 @@ library(reshape2)
 library(BMS)
 library(cowplot)
 
-plot_irf <- function(x, impulse, var_names) {
+plot_irf <- function(x, 
+                     impulse, 
+                     var_names) {
+  
   quantiles <- apply(x, c(2, 3, 4), function(z) quantile(z, c(0.16, 0.25, 0.5, 0.75, 0.84)))
   quantiles <- quantiles[, , impulse, ]
   
@@ -29,13 +32,13 @@ plot_irf <- function(x, impulse, var_names) {
     geom_ribbon(aes(ymin = X075, ymax = X084), fill = "grey60") +
     facet_grid(resp ~ ., scales = "free") +
     geom_line(col = "black", size = 1) +
-    scale_x_continuous(expand = c(0, 0), breaks = seq(2, dim(quantiles)[3], dim(quantiles)[3] / 10)) +
-    geom_hline(yintercept = 0) +
-    ggtitle(paste(var_names[impulse], "impulse")) +
+    scale_x_continuous(expand = c(0, 0), breaks = seq(4, dim(quantiles)[3], dim(quantiles)[3] / 10)) +
+    geom_hline(yintercept = 0, linetype = "dashed", size = 1.1) +
+    ggtitle(paste(var_names[impulse], "shock")) +
     theme(
       text = element_text(colour = "black"),
       panel.border = element_rect(colour = "black", fill = NA),
-      plot.margin = unit(c(0.5, 1, 0, 0), "lines"),
+      plot.margin = unit(c(0.5, 1, 0.2, 0.2), "lines"),
       panel.background = element_blank(),
       panel.grid.minor = element_line(colour = "lightgray", size = 0.5),
       panel.grid.major = element_line(colour = "lightgray", size = 0.5),
@@ -78,13 +81,13 @@ plot_irf_full <- function(x, var_names) {
       geom_ribbon(aes(ymin = X075, ymax = X084), fill = "grey60") +
       facet_grid(resp ~ ., scales = "free_y") +
       geom_line(col = "black", size = 1) +
-      scale_x_continuous(expand = c(0, 0), breaks = seq(2, dim(quantiles)[4], dim(quantiles)[4] / 5)) +
-      geom_hline(yintercept = 0) +
-      ggtitle(paste(var_names[i], "impulse")) +
+      scale_x_continuous(expand = c(0, 0), breaks = seq(4, dim(quantiles)[4], dim(quantiles)[4] / 5)) +
+      geom_hline(yintercept = 0, linetype = "dashed", size = 1.1) +
+      ggtitle(paste(var_names[i], "shock")) +
       theme(
         text = element_text(colour = "black"),
         panel.border = element_rect(colour = "black", fill = NA),
-        plot.margin = unit(c(0.5, 1, 0, 0), "lines"),
+        plot.margin = unit(c(0.5, 1, 0.2, 0.2), "lines"),
         panel.background = element_blank(),
         panel.grid.minor = element_line(colour = "lightgray", size = 0.5),
         panel.grid.major = element_line(colour = "lightgray", size = 0.5),

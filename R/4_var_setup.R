@@ -2,9 +2,8 @@ data <- readRDS("data/country_data.RDS")
 
 plot_country <- function(x) {
   # remove some to circumvent 10 var limit
-  x$import <- NULL
-  x$i3m <- NULL
-  x$TIME <- NULL
+  x <- x[c("comm", "industr", "gdp", "infl", "export", "m3", "mp_rate", "i10y", "equity")[which(c("comm", "industr", "gdp", "infl", "export", "m3", "mp_rate", "i10y", "equity") %in% names(x))]]
+  
   plot(ts(x))
 }
 
@@ -15,7 +14,7 @@ plot_country <- function(x) {
 #   summary(x)
 # })
 
-# Chile & Norway miss:
+# Chile misses:
 #   i10y
 # Australia misses:
 #   equity
@@ -25,27 +24,27 @@ plot_country <- function(x) {
 # Chile & Norway use i3m for missing mp_rate
 # Germany uses M2
 
-#plot_country(data$AUS)
+plot_country(data$AUS)
 data_aus <- data$AUS[c("comm", "industr", "gdp", "infl", "export", "m3", "mp_rate", "i10y")]
 data_aus <- data_aus[complete.cases(data_aus), ]
 
-#plot_country(data$CHL)
+plot_country(data$CHL)
 data_chl <- data$CHL[c("comm", "industr", "gdp", "infl", "export", "m3", "mp_rate", "equity")]
 data_chl <- data_chl[complete.cases(data_chl), ]
 
-#plot_country(data$NOR)
-data_nor <- data$NOR[c("comm", "industr", "gdp", "infl", "export", "m3", "mp_rate", "equity")]
+plot_country(data$NOR)
+data_nor <- data$NOR[c("comm", "industr", "gdp", "infl", "export", "m3", "mp_rate", "i10y", "equity")]
 data_nor <- data_nor[complete.cases(data_nor), ]
 
-#plot_country(data$ZAF)
+plot_country(data$ZAF)
 data_zaf <- data$ZAF[c("comm", "industr", "gdp", "infl", "export", "m3", "mp_rate", "i10y", "equity")]
 data_zaf <- data_zaf[complete.cases(data_zaf), ]
 
-#plot_country(data$DEU)
+plot_country(data$DEU)
 data_deu <- data$DEU[c("comm", "industr", "gdp", "infl", "export", "m3", "mp_rate", "i10y", "equity")]
 data_deu <- data_deu[complete.cases(data_deu), ]
 
-#plot_country(data$USA)
+plot_country(data$USA)
 data_usa <- data$USA[c("comm", "industr", "gdp", "infl", "export", "m3", "mp_rate", "i10y", "equity")]
 data_usa <- data_usa[complete.cases(data_usa), ]
 

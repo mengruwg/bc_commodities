@@ -1,0 +1,9 @@
+﻿-;Source;Subject;Measure;Frequency
+Commodities;Bloomberg;-;-;M
+GDP;OECD;B1_GE;CPCARSA;Q
+Inflation (CPI);OECD;CPALTT01;IXOB;Q
+Exports;OECD;P7;CPCARSA;Q
+M3;OECD, FRED;MABMM301;IXOBSA;Q
+Monetary Policy;Central Banks, FRED;-;-;-
+10Y Bond Yields;OECD;IRLTLT01;-;Q
+Equity Indices;Datastream;-;-;M

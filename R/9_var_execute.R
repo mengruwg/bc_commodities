@@ -24,11 +24,11 @@ for(country in data_countries) {
   heatmap_plot <- pip_heatmap(country)
 
   ggsave(paste0("irf_short_", names(data_countries)[i], ".png"), plot_grid(irf_plot_1, irf_plot_2),
-         path = "img", units = "cm", height = 24, width = 16)
+         path = "img", units = "cm", height = 20, width = 16)
   ggsave(paste0("irf_all_", names(data_countries)[i], ".png"), irf_all,
          path = "img", units = "cm", height = 32, width = 48)
   ggsave(paste0("pip_heatmap_", names(data_countries)[i], ".png"), heatmap_plot,
-         path = "img", units = "cm", height = 24, width = 18)
+         path = "img", units = "cm", height = 20, width = 20)
   
   i <- i + 1
 }

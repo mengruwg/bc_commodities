@@ -5,20 +5,23 @@ author: |
   | WU Vienna, 5741 - Money, Credit & Finance
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 abstract: "This paper studies the impact of commodity price shocks in resource-dependent economies, namely Australia, Chile, Norway and Australia. Principal component analysis is implemented as a way of reducing the dimensionality of a multitude of available commodity prices and inidces. Analysis of impulse responses in a recursively identified structural VAR model is performed. We find significant, differing responses to commodity price shocks for all countries. Furthermore we find that the two selected principal components lead to clearer, more significant impulse responses."
-output: pdf_document
+output: 
+  pdf_document:
+    fig_caption: yes
 fontsize: 12pt
 documentclass: article
 bibliography: comm.bibtex
 toc: true
+
 ---
 
 \newpage
 
 # Introduction
 
-The sources and drivers of business cycles have persistently been one of the main subjects of macroeconomic research and will most likely remain a staple of the discipline. The Vector autoregressive (VAR) models proposed by Chris Sims (1980) as a method for policy analysis have shaped the field ever since. A vast amount of literature focuses on the US business cycle and considers various shocks, e.g. due to technology, monetary policy or commodity prices. However, the focus on the US, be it due to data availability or importance of the country’s economy, means that a vast amount of information about business cycles has been left out - namely, the one stemming from other countries. On the other hand, research combining business cycles and commodity prices has mainly dealt with generic commodity price indices or specifically the oil price.  
+The sources and drivers of business cycles have persistently been one of the main subjects of macroeconomic research and will most likely remain a staple of the discipline. The Vector autoregressive (VAR) models proposed by Chris Sims (1980) as a method for policy analysis have shaped the field ever since. A vast amount of literature focuses on the US business cycle and considers various shocks, e.g. due to technology, monetary policy or commodity prices. However, the focus on the US, be it due to data availability or importance of the country’s economy, means that a vast amount of information about business cycles has been left out - other countries and their data have widely been neglected. On the other hand, research combining business cycles and commodity prices has mainly dealt with generic commodity price indices or specifically the oil price.  
 This paper attempts to address both of these issues by considering a multitude of commodity prices and indices for implementation in structural VAR models spanning four resource-dependent economies (Australia, Chile, Norway and South Africa). To our best knowledge this approach has not been taken before, setting our work apart from the vast literature we base it on. The theory is built upon the work of Gubler et al. (2013) on an extended set of business cycle shocks, that is comprised of shocks via monetary policy, technology and commodity prices. Gubler et al. study the effect of commodity price shocks in addition to the shocks presented by Altig et al. (2011) via a structural VAR (SVAR) model of the US business cycle. The find commodity price shocks to be an important source of fluctuation, especially in regard to inflation (Gubler et al. 2013, p. 20). Roch (2017) focuses the analysis on terms-of-trade shocks in VAR models of Chile, Colombia and Peru. The commodity price indices used are country-specific and constructed from international prices and country-level export data (Roch 2017, p. 6-7). Roch finds a “substantial impact [of terms-of-trade shocks] on fiscal aggregates” (Roch 2017, p. 4), as well as a significant influence of fluctuations on key macroeconomic variables. Further work on international business cycles was done by Mallick and Sousa (2012), who evaluate the transmission of monetary policy in five emerging market economies (Brazil, Russia, India, China and South Africa). They use several types of VAR models and uncover significant effects of a positive shock to commodity prices (Mallick & Sousa 2012, p. 693).  
-We consider a structural VAR, identified via Cholesky decomposition and interpret its impulse responses. Furthermore, we reduce the dimensionality of multiple commodity price time series via Principal Component Analysis (PCA). We find significant impacts of commodity prices across models and find evidence of the benefit of using PCA in the form of substantially less impactful responses to non-transformed commodity variables. This document is structured as follows. In section 2 the methodology regarding data, PCA and SVAR model are discussed. In section 3 results are presented and outlined. Section 3 concludes.
+We consider a structural VAR, identified via Cholesky decomposition and interpret its impulse responses. Furthermore, we reduce the dimensionality of multiple commodity price time series via Principal Component Analysis (PCA). We find significant impacts of commodity prices across models and find evidence of the benefit of using PCA in the form of substantially less impactful responses to non-transformed commodity variables. This document is structured as follows. In section 2 the methodology regarding data, PCA and SVAR model are discussed. In section 3 results are presented and outlined. Section 4 concludes.
 
 # Methodology
 
@@ -66,15 +69,26 @@ Furthermore, **Bayesian Model Averaging** is used as an additional way of assess
 
 For the optimal choice of dataset to be handled with PCA, several starting points of the commodity time series were considered. Ultimately the second quarter of 1979 was selected, as it yielded the strongest test-statistics with regards to the possibility of using PCA, while also being covered by a sizeable amount of the available time series. A *KMO*-Criterion of 0.803 and a highly significant p-value of Bartlett's Test of Sphericity (see Appendix, Table 99.9) indicate the suitability of PCA. The Kaiser Criterion yields two components that add a satisfactory amount of information to the model (see Appendix, Figure 96.69). The components have eigenvalues of 7.79 and 2.68, which are both well above the cut-off. Additionally, the components capture 60 and 21 percent of the sample variance - which is considered sensible (Jolliffe, 2011). Based on the resulting factor loadings one can distinguish between the variables in each component. Whilst the first component comprises time series of precious metals, agriculture & livestock and a generic commodity index, the second one contanins industrial metals. Thus we will refer to them as *Commodities* and *Industrial Metals* (labelled *comm* and *industr*).  
 
+![Posterior Inclusion Probabilities, Norway](img/pip_heatmap_NOR.png){width=50%}
+
+
 The iteratively computed posterior inclusion probabilities (PIPs) provide an interesting overview of the data (Appendix, Plots 14.1-14.5), but should be interpreted with care. In the case of Australia the commodities' principal components display very low PIPs, a picture that holds for all variables. The Chilean data however, appear to be rather interconnected. The commodity variables show decent inclusion in models explaining the monetary policy rate, the monetary aggregate, exports and even GDP. The Norwegian PIPs are generally rather low, although the commodity components turn out relatively high, with high inclusion when explaining GDP and decent values for equity prices. For South Africa the PIPs turn out slightly higher - the principal components show up when explaining the monetary policy rate, inflation and GDP. Based on these results we would expect higher impacts of the commodity components for Chile and South Africa, while one could presume the lower interplay of variables for Australia and Norway to lead to less convoluted models.
 
 ## Impulse Responses
 
 The impulse responses, as pictured in Plots 3.1 and 3.2 (as well as Appendix, Plots 17.1 - 17.6) show us the reaction of the model's variables to specific shocks. The solid black line corresponds to the mean response; the dark- and light-gray areas cover 25-75 percent and 16-84 percent posterior confidence intervals among the 10,000 iterations.  
+
+![Commodity Impulse Responses, South Africa](img/irf_short_ZAF.png){width=50%}
+
+![Commodity Impulse Responses, Australia](img/irf_short_AUS.png){width=50%}
+
+
 In very loose terms the results do not hold any huge surprises. Technology shocks roughly turn out as expected, and do so rather significantly. In the cases of inflation and monetary aggregates the responses may be pronounced, but tend to dissipate very quickly. The picture of monetary policy shocks is rather diverse - responses vary across countries in direction, significance and persistence.
 A shock to the first principal component (labelled *comm*) impacted GDP negatively in all countries, but Chile. Similar things same held for inflation, which received a boost except for Chile, where it fell, and Norway where it fell insignificantly. The impacts on export were rather negative for resource-dependent economies, but positive on the control-group of Germany and the US. The monetary policy rate reacted in an expansionary matter for Australia and the US, but insignificantly or contractionarily for the other countries. In German and South African models we can also observe a short, but significant jump in equity prices as a reaction to a shock on this first principal component. 
 The second principal component (labelled *industr*) did not affect GDP as consistently; although, the initial effect was positive for all models, but Chile's. In the control group this positive GDP response even increased for a while and only faded after a considerable amount of time. In the resource-dependent countries the responses peaked rather early and subsequently tended to insignificance. Meanwhile, the effects on inflation, bond-yields, monetary aggregates and the monetary policy rates differed between countries, but turned out extremely similar in each country itself. Exports jumped significantly for Australia and South Africa, whereas they fell in the models of Germany and the US, only to rebound to a small but significant increase after about four to six quarters. Curiously the shock also had a significant, positive effect on South African equity prices.  
 Another set of models with country-specific commodities instead of principal components was estimated for comparison. These include industrial metals, agriculture and livestock, gold, copper, energy and precious metals (see appendix, Table 11.1). The resulting impulse responses were largely comparable, but the impacts and responses of commodity variables turned out rather insignificant. Ultimately this approach yielded less convincing results than one that simply used a single commodity price index. We interpret this as evidence for our approach of using principal components, as it combines the advantage of both methods - the use of all available data, including rather country-specific time series, and the impactfulness of using few, but significant variables. 
+
+
 
 
 # Discussion
@@ -85,3 +99,11 @@ Another set of models with country-specific commodities instead of principal com
 
 # Literature
 
+<div id="refs"></div>
+
+# Appendix
+
+\newpage
+
+```{r child = "appendix.Rmd"}
+```
