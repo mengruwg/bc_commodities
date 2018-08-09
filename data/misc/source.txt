@@ -1,3 +1,0 @@
-chl_unemp - oecd
-aus_unemp - australian bureau of statistics
-nor_unemp - statistics norway

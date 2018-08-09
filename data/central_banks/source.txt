@@ -1,4 +1,0 @@
-Central Banks:
-	NOR, AUS, CHL, DEU
-FRED:
-	ZAF, USA
