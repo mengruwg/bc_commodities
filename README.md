@@ -1,46 +1,8 @@
 # bc_commodities
 
-Money, Credit & Finance paper dealing with business cycles in resource dependent economies.
+Money, Credit & Finance paper dealing with business cycles in resource dependent economies. 
 
-# To-Do
-
-- more transformations
-- add commodities in different forms (wait for PCA)
-- stochastic volatility
-
-## Data
-- GDP
-- Inflation
-- Commodity Prices
-- Exports - Imports
-- Bond 10Y Rate
-- M3
-- Monetary Policy Rate
-- Stock Indices
-
-
-# Literature Review
-
-### Mallick & Sousa 2012
-
-- Five BRICS countries (BR, RU, IN, CN, ZA)
-- Evaluate transmission of monetary policy & fluctuations in commodity prices
-
-##### Econometric Methodology
-Standard SVAR with recursive identification: X is split into three groups:
-- n1 variables that respond to a monetary policy shock with lag (GDP deflator, real GDP, commodity price index)
-- n2 variables that adjust contemporaneously (growth of M2, real effective exchange rate, equity price index)
-- the policy instrument (nominal central bank rate)
-
-##### Data
-Variables are expressed in logs of first-differences.
-- Commodity price index
-- Inflation rate (computed from country-specific CPIs)
-- Real GDP (GDP at constant prices)
-- Nominal central bank rate (Monetary policy instrument)
-- Broad money supply M2
-- Real effective exchange rate
-- Stock price index
-
-##### Findings
-Commodity price shocks lead to a rise in inflation & demand aggressive behaviour from central banks to stabilise.
+- Parts of data available upon request;
+- The *R* folder contains scripts for reading in & transforming data, performing analysis and visualising results;
+- *img* contains all figures created for analysis;
+- *appendix* contains tables for the Appendix;
